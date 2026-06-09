@@ -21,7 +21,7 @@ Analysiert — erstellt oder verändert nichts.
 - Fließtext und Aufzählungen ausgewogen?
 
 ### Vollständigkeit
-- Alle Pflichtabschnitte vorhanden?
+- Alle relevanten Pflichtabschnitte vorhanden?
 - Regeln konkret und testbar formuliert?
 - Fehlerfälle mit Systemreaktion dokumentiert?
 - Ausnahmen explizit benannt?
@@ -30,11 +30,20 @@ Analysiert — erstellt oder verändert nichts.
 - Vorlage vollständig eingehalten?
 - Abschnitte in richtiger Reihenfolge?
 
+### Verlustfreiheit (bei Überarbeitungen)
+- Wurden Aussagen unzulässig zusammengeführt (mehrere Einzelregeln zu einer allgemeineren)?
+- Wurden Voraussetzungen, Ausnahmen oder Rollenunterschiede stillschweigend weggelassen?
+- Wurde ein Ablauf auf sein Ergebnis verkürzt oder eine ausdrückliche Folge nur noch angedeutet?
+- Ist jede fachliche Aussage ausdrücklich erkennbar — nicht nur indirekt ableitbar?
+- Falls ein Redaktionsnachweis vorliegt: deckt er Zusammenführungen, Entfernungen und offene Punkte vollständig ab?
+
 ### Konsistenz
 - Use Cases decken die Feature-Regeln vollständig ab?
 - Kein Use Case beschreibt Verhalten das den Feature-Regeln widerspricht?
-- Verwandte Features korrekt verknüpft?
+- Verwandte Themen korrekt verknüpft — jeder Eintrag mit Referenz, Titel, Beziehungstyp und fachlicher Begründung?
+- Beziehungen fachlich belegt (nicht allein aus ähnlichen Titeln angenommen)?
 - Keine widersprüchlichen Aussagen zwischen Dokumenten?
+- Unklarheiten/Widersprüche gekennzeichnet statt eigenmächtig geglättet?
 
 ### Testbarkeit
 - Lassen sich Regeln und Fehlerfälle direkt in Tests übersetzen?
