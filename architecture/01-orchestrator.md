@@ -42,7 +42,7 @@ dass vor einer Implementierung eine belastbare Bestands- und Regelanalyse vorlie
 2. Änderungsreichweite zunächst eng abgrenzen.
 3. Graphify-Protokoll anwenden (`core/graphify-protocol.md`).
 4. Bestandsanalyse durchführen (`02-bestandsanalyse.md`).
-5. Relevante Regeln ermitteln (`03-designregeln.md`).
+5. Relevante Regeln ermitteln (`03-designregeln.md`) — Architektur-, Daten- und Designregeln gleichermaßen.
 6. Wiederverwendungs- und Umsetzungsentscheidung treffen (`04-umsetzungsentscheidung.md`).
 7. Bei Implementierungsauftrag: umsetzen (`05-implementierung.md`).
 8. Konformitätsprüfung durchführen (`06-konformitaetspruefung.md`).

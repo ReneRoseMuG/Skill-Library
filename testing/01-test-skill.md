@@ -82,6 +82,8 @@ Jeder Test muss:
 - Nicht automatisch möglichst viele Unit- und möglichst wenige E2E-Tests verlangen.
 - Keine fehlgeschlagenen Tests automatisch an neues Verhalten anpassen.
 - Keine Produktivcode-Änderung aus einem reinen Testauftrag.
+- In einer Test- oder Fix-Sitzung keinen Produktivcode ändern, der nicht ausdrücklich beauftragt ist.
+- Keine vollständigen oder breiten Testsuiten ohne ausdrückliche Beauftragung — standardmäßig nur die direkt betroffenen Tests ausführen.
 
 ---
 

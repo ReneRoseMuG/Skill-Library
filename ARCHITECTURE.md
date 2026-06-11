@@ -108,6 +108,14 @@ Projektspezifische Skills wenden dieses Protokoll auf den lokalen Graphen an.
 
 ---
 
+## Orchestrierung
+
+Der Einstieg über `core/00-auftrags-orchestrator.md` ist verbindlich: Er klassifiziert den Auftrag, aktiviert nur die nötigen Spezialisierungsskills und sichert die Reihenfolge Analyse → Planung → Umsetzung → Abschluss. `core/work-order.md` ergänzt ihn für Aufträge, die aus einem Vorgangssystem stammen.
+
+Ebene-3-Skills **referenzieren** diese Ebene-1-Dateien, statt ihren Inhalt zu kopieren. Kopieren erzeugt Drift: Die Projektfassung veraltet gegenüber der Vorlage, ohne dass es auffällt.
+
+---
+
 ## Obsolete Skills entfernen
 
 Skills die ein anderes Projekt betreffen oder durch Ebene-1-Inhalte ersetzt wurden:

@@ -16,6 +16,17 @@ graphify update .
 
 ---
 
+## Geltungsbereich
+
+Dieses Protokoll ist verbindlich für jeden Skill, der Code liest, analysiert oder recherchiert. Es wird in Schritt 1 referenziert von:
+
+- `00-auftrags-orchestrator.md`, `planung.md`, `code-discipline.md`, `work-order.md` — sobald Code berührt wird
+- `exploration/`, `architecture/`, `data-model/`, `testing/`
+
+Klassische Datei- oder Textsuche ist nicht der Ersteinstieg, solange ein Graph verfügbar ist — sie verifiziert die Graphfunde (Schritt 4).
+
+---
+
 ## Standardablauf
 
 ### Schritt 1 — Einstieg über Fachbegriff

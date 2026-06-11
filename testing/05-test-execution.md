@@ -10,7 +10,7 @@ und bewertet ob die beabsichtigte fachliche Absicherung erreicht wurde.
 1. Testumgebung und Voraussetzungen prüfen.
 2. Testbefehle aus Repository-Konfiguration und Dokumentation ermitteln.
 3. Zunächst direkt betroffene Tests ausführen.
-4. Danach erforderliche größere Suiten seriell nach Ebene ausführen.
+4. Größere oder vollständige Suiten nur auf ausdrückliche Beauftragung ausführen — sonst bei den direkt betroffenen Tests bleiben.
 5. Ergebnisse, Laufzeiten, übersprungene Tests und Diagnoseartefakte erfassen.
 6. Fehler nach Ursache klassifizieren.
 7. Bei jedem Fehlschlag prüfen: Regression, veraltete Erwartung, Testfehler oder Infrastrukturproblem?
@@ -37,6 +37,7 @@ und bewertet ob die beabsichtigte fachliche Absicherung erreicht wurde.
 ## Leitplanken
 
 - Während eines reinen Testlaufs weder Test- noch Produktivcode ändern.
+- Vollständige oder breite Testläufe nur auf ausdrückliche Beauftragung.
 - Keine fehlgeschlagene Erwartung automatisch anpassen.
 - Nicht ausgeführte oder blockierte Tests ausdrücklich nennen.
 - Grüne Tests nicht automatisch als ausreichenden Beweis behandeln.

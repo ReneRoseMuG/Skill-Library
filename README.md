@@ -11,7 +11,7 @@ Jede Datei beschreibt einen Skill: Zweck, Ablauf, Leitplanken, Ergebnisformat.
 
 | Ordner | System | Skills | Status |
 |---|---|---|---|
-| `core/` | Gemeinsame Protokolle | 1 | Stabil |
+| `core/` | Orchestrierung & Protokolle | 5 | Erweitert |
 | `exploration/` | Code Exploration & Impact | 4 | Neu |
 | `architecture/` | Architektur & Design | 7 | Überarbeitet |
 | `testing/` | Softwaretests | 5 | Verschlankt (war 10) |
@@ -19,7 +19,7 @@ Jede Datei beschreibt einen Skill: Zweck, Ablauf, Leitplanken, Ergebnisformat.
 | `documentation/` | Anwenderdokumentation | 4 | Verschlankt (war 10) |
 | `data-model/` | Datenmodell & Persistenz | 3 | Neu |
 
-**Gesamt: 27 Skills** (vorher: ~40 .docx-Dokumente)
+**Gesamt: 31 Skills** (vorher: ~40 .docx-Dokumente)
 
 ---
 
