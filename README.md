@@ -16,10 +16,10 @@ Jede Datei beschreibt einen Skill: Zweck, Ablauf, Leitplanken, Ergebnisformat.
 | `architecture/` | Architektur & Design | 7 | Überarbeitet |
 | `testing/` | Softwaretests | 5 | Verschlankt (war 10) |
 | `specification/` | Spezifikationsredaktion | 3 | MCP-orientiert |
-| `documentation/` | Anwenderdokumentation | 4 | Verschlankt (war 10) |
+| `documentation/` | Anwenderdokumentation | 5 | Verschlankt (war 10) |
 | `data-model/` | Datenmodell & Persistenz | 3 | Neu |
 
-**Gesamt: 27 Skills** (vorher: ~40 .docx-Dokumente)
+**Gesamt: 28 Skills** (vorher: ~40 .docx-Dokumente)
 
 ---
 
