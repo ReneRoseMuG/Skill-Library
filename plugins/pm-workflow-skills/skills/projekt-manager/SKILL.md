@@ -14,10 +14,10 @@ description: >
 Alle Tools des `projekt-manager` MCP Servers stehen zur Verfügung:
 
 **Projekte & Meilensteine**
-- `list_projects` — alle Projekte auflisten
+- `list_projects` — Projekte auflisten (seitenweise, siehe „Listen antworten seitenweise“)
 - `get_project` — ein Projekt per ID abrufen
 - `update_project` — Projekt aktualisieren
-- `list_milestones` — Meilensteine (optional gefiltert nach Projekt)
+- `list_milestones` — Meilensteine (mit `projectId` die eines Projekts, sonst seitenweise global)
 - `get_milestone` — einen Meilenstein per ID abrufen
 - `create_milestone` — neuen Meilenstein anlegen
 - `update_milestone` — Meilenstein aktualisieren
@@ -25,18 +25,21 @@ Alle Tools des `projekt-manager` MCP Servers stehen zur Verfügung:
 **Aufgaben & Tickets**
 - `list_tasks_for_parent` — Aufgaben eines Projekts/Meilensteins auflisten
 - `list_tickets_for_parent` — Tickets eines Projekts/Meilensteins auflisten
+- `list_all_tasks` / `list_all_tickets` — global über alle Parents (seitenweise, mit `q`/`status`/`type`)
 - `get_task` — eine Aufgabe per ID abrufen
 - `get_ticket` — ein Ticket per ID abrufen
 - `add_task_to_parent` — neue Aufgabe anlegen
+- `add_subtask_to_task` — Unteraufgabe unter einer Aufgabe anlegen
 - `update_task` — Aufgabe aktualisieren (Status, Felder)
 - `assign_editorial_task` — Aufgabe zuweisen
 - `add_ticket_to_parent` — neues Ticket anlegen
 - `update_ticket` — Ticket aktualisieren (Status, Felder)
+- `manage_ticket_relation` — Ticket-Beziehung (`blocks`/`related`/`duplicate`) setzen oder lösen
 
 **Features & Use Cases** — *abgekündigt.* Spezifikation und Dokumentation laufen ausschließlich
 über Wiki-Seiten; diese Objekte werden entfernt. Nur noch lesend für Altbestand verwenden, nichts
 Neues anlegen. Verfahren: `${CLAUDE_PLUGIN_ROOT}/reference/wiki-ablage.md`.
-- `list_features` — Features auflisten
+- `list_features` — Features auflisten (seitenweise)
 - `get_feature` — ein Feature per ID abrufen
 - `create_feature` — neues Feature anlegen
 - `update_feature` — Feature aktualisieren
@@ -47,18 +50,38 @@ Neues anlegen. Verfahren: `${CLAUDE_PLUGIN_ROOT}/reference/wiki-ablage.md`.
 - `update_use_case` — Use Case aktualisieren
 - `add_task_to_use_case` / `add_ticket_to_use_case` — Aufgaben/Tickets zu Use Case verknüpfen
 
+**Wiki**
+- `list_wiki_pages` / `get_wiki_page` — Ebene bzw. Einzelseite lesen
+- `get_wiki_tree` — vollständige Hierarchie (für einzelne Ebenen ist `list_wiki_pages` sparsamer)
+- `create_wiki_page` / `update_wiki_page` — anlegen und ändern (`update_wiki_page` verschiebt auch über `parentId`/`sortOrder`)
+- `manage_wiki_relation` — Querverweis zwischen zwei Seiten setzen oder lösen
+- `delete_wiki_page` — Seite löschen (kaskadiert serverseitig)
+
 **Kataloge & Benutzer**
 - `list_catalogs` — Kataloge auflisten
 - `list_users` — Benutzer auflisten
 
-**Kommentare & Notizen**
-- `add_comment_to_parent` — Kommentar hinzufügen
-- `add_note_to_parent` — Notiz hinzufügen
+**Support-Objekte: Kommentare, Notizen, Anhänge, Verknüpfungen**
+- `add_comment_to_parent` — Kommentar hinzufügen (Projekt, Meilenstein, Aufgabe, Ticket, Feature, Use Case, **Wiki-Seite**, **Backlog-Eintrag**)
+- `add_note_to_parent` — Notiz hinzufügen (Projekt, Meilenstein, Aufgabe, Ticket, **Wiki-Seite**)
+- `add_attachment_to_parent` — Anhang hinzufügen (Projekt, Meilenstein, Aufgabe, Feature, Ticket, **Wiki-Seite**)
+- `list_support_for_parent` — Notizen, Kommentare, Anhänge, DMS-Verknüpfungen und Beziehungen eines Objekts in **einem** Aufruf lesen; über `kinds` einschränken
+- `get_note` — eine Notiz mit Inhalt und Version lesen
+- `delete_support_object` — Notiz oder Kommentar löschen (`kind` + `id`)
+- `remove_attachment_from_parent` — Anhang von einem Objekt entfernen
+
+**Massen-Änderungen** — höchstens 50 Elemente je Aufruf, streng seriell, **ohne** Alles-oder-nichts-Klammer: scheitert ein Element, bleiben die zuvor geschriebenen Änderungen bestehen. Das Ergebnis weist Erfolge und Fehler je Element aus — es gehört geprüft, nicht übergangen.
+- `update_items_bulk` — Status, Priorität, Verantwortlichen oder Fälligkeit auf mehreren Aufgaben oder Tickets setzen
+- `move_items_bulk` — mehrere Aufgaben oder Tickets an einen anderen Parent umhängen
+- `set_tags_bulk` — Tags an mehreren Objekten hinzufügen oder entfernen
 
 **Referenzauflösung & Aktivität**
 - `resolve_reference` — eine Referenz wie `PROJ-3`/`TKT-12` auf das passende Objekt auflösen
-- `get_reference_context` — Parent mit rekursiven Kindern, Notes, Attachments, Comments, Relationen laden
-- `report_activity` — Aktivitäts-Delta für ein Zeitfenster abrufen (Grundlage für den `tagebuch`-Skill)
+- `get_reference_context` — Parent mit rekursiven Kindern, Notes, Attachments, Comments, Relationen laden. Ohne weitere Angaben vollständig; `depth`, `include`, `attachmentPreviews` und `maxChildrenPerType` begrenzen den Umfang gezielt
+- `search` — typübergreifend suchen (Projekte, Meilensteine, Aufgaben, Tickets, Features), Kurzform mit Gesamtzahl
+- `search_documents` — DMS-Dokumente nach Name, Sammlung, Tags und Dateityp durchsuchen
+- `report_activity` — Aktivitäts-Delta für ein Zeitfenster abrufen; blättert über `cursor` weiter (Grundlage für den `tagebuch`-Skill)
+- `get_object_history` — Verlauf genau eines Objekts (sparsamer als `report_activity`, wenn nur ein Objekt interessiert)
 - `get_project_diary` / `create_diary_entry` / `update_diary_entry` — Projekt-Tagebuch lesen/schreiben (siehe `tagebuch`-Skill)
 
 ## Workflow: Beauftragung zur Bearbeitung
@@ -99,7 +122,25 @@ Gilt nicht nur bei explizit beauftragten PM-Referenzen: siehe `mcp-code-auftrag`
 1. Nutze immer zuerst `list_projects` um einen Überblick zu bekommen, wenn kein spezifisches Projekt genannt wird.
 2. Bei hierarchischen Abfragen (z.B. Aufgaben eines Projekts) zuerst die Parent-ID ermitteln.
 3. Ergebnisse kompakt und übersichtlich präsentieren — bei langen Listen wichtigste Felder zusammenfassen.
-4. Die Projekt-Manager-App muss lokal laufen: REST-API auf `http://127.0.0.1:3001`, MCP-Server auf `http://127.0.0.1:3010`. Falls Tools Fehler zurückgeben, darauf hinweisen, dass die App gestartet sein muss.
+4. **Gesucht statt geladen:** Geht es um bestimmte Objekte, `search` verwenden, statt vollständige Listen zu ziehen und selbst zu filtern.
+5. Die Projekt-Manager-App muss lokal laufen: REST-API auf `http://127.0.0.1:3001`, MCP-Server auf `http://127.0.0.1:3010`. Falls Tools Fehler zurückgeben, darauf hinweisen, dass die App gestartet sein muss.
+
+## Listen antworten seitenweise
+
+`list_projects`, `list_milestones` (ohne `projectId`), `list_all_tasks`, `list_all_tickets` und
+`list_features` antworten standardmäßig mit **Seite 1 zu 50 Einträgen**:
+`{ data, total, page, pageSize, hasMore }`. `total` ist die Gesamtzahl **nach Filter** — also
+immer mitlesen und dem Nutzer nennen, wenn mehr existiert als gezeigt wird. Weiter geht es mit
+`page: 2` usw.; `pageSize` ist auf 100 begrenzt.
+
+- `q`, `status` (und bei Tickets `type`) filtern serverseitig — immer dort filtern statt alles zu laden.
+- `compact: true` liefert nur Referenz, Titel, Status, Priorität, Fälligkeit und Verantwortlichen.
+- `page: null` liefert bewusst die vollständige Liste. Nur verwenden, wenn wirklich alles gebraucht
+  wird — bei großen Beständen kostet das viel Kontext und belastet die Datenbank.
+
+Wird eine Antwort zu groß, liefert der Server statt der Daten eine Hülle mit `truncated: true`
+und einem Hinweis. Das ist kein Fehler, sondern die Aufforderung, enger zu filtern oder
+seitenweise zu lesen.
 
 ## Textfelder sind HTML
 
@@ -116,7 +157,7 @@ Konvertierungsregel:
 | `1. Punkt` | `<ol><li>Punkt</li></ol>` |
 | Fließtext-Absatz | `<p>Fließtext-Absatz</p>` |
 
-Betrifft: `add_task_to_parent`, `add_ticket_to_parent`, `update_project`, `update_milestone`, `update_task`, `update_ticket`, `add_note_to_parent`, `create_feature`, `update_feature`, `create_use_case`, `update_use_case` — überall wo ein Textinhalt übergeben wird.
+Betrifft: `add_task_to_parent`, `add_subtask_to_task`, `add_ticket_to_parent`, `update_project`, `update_milestone`, `update_task`, `update_ticket`, `add_note_to_parent`, `create_feature`, `update_feature`, `create_use_case`, `update_use_case` — überall wo ein Textinhalt übergeben wird.
 
 ---
 Quelle: Skill Library, Plugin `pm-workflow-skills`. Projektunabhängig — keine Änderung nötig, wenn ein neues Repo dieses Plugin installiert.

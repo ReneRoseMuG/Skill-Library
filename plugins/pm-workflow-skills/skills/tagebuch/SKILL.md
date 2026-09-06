@@ -37,9 +37,13 @@ nichts erfinden.
 - `report_activity` aufrufen. `from` = höchstes `coveredUntil` des/der betroffenen Projekte
   (vorab per `get_project_diary` ermittelt); existiert noch kein Tagebuch, ein bewusst gewähltes
   Zeitfenster wählen. `limit` ≤ 100.
-- **Paginierung ohne Cursor:** `report_activity` nimmt nur `from`/`to`/`limit` (kein Cursor-Input).
-  Ist die Ausgabe-`count` gleich dem `limit` (Fenster evtl. voll) oder `nextCursor` gesetzt, das
-  Zeitfenster über `from`/`to` weiter aufspannen und erneut lesen, bis keine neuen Ereignisse kommen.
+- **Paginierung über den Cursor:** Ist im Ergebnis `nextCursor` gesetzt, denselben Aufruf mit
+  `cursor: <nextCursor>` wiederholen (`from`/`to`/`limit` unverändert lassen) und die Seiten
+  aneinanderhängen, bis `nextCursor` null ist. Das Zeitfenster dafür **nicht** verschieben — das
+  läse Ereignisse doppelt und verlöre bei dicht beieinanderliegenden Zeitstempeln welche.
+- **Gezielt filtern statt alles lesen:** `report_activity` nimmt zusätzlich `objectType`,
+  `objectId`, `actorUserId` und `q`. Geht es nur um ein einzelnes Objekt, ist `get_object_history`
+  (`objectType` + `objectId`, ebenfalls mit `cursor`) der sparsamere Weg.
 - **Ausgabeform:** `{ generatedAt, from, to, count, nextCursor, groups[] }`; jede Gruppe
   `{ context: { type, id, label }, entryCount, entries[] }`, jedes Ereignis
   `{ id, operation, objectType, objectId, objectLabel, summary, actorName, createdAt }`.

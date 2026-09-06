@@ -1,7 +1,7 @@
 {
   "name": "pm-workflow-skills",
   "description": "PM-Workflow-Skills: Projekt-Manager-MCP-Basiszugriff, Arbeitsauftrags-Orchestrierung (PROJ/MS/TASK/TKT/FEAT/UC), Anwenderdokumentation im Wiki, Spezifikationsredaktion im Wiki, Feature-Editorial und Projekt-Tagebuch. Bündelt außerdem den projekt-manager-MCP-Server, damit er in jedem Repo, das dieses Plugin installiert, gleich verfügbar ist.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Rene"
   }

@@ -59,7 +59,7 @@ Nur tatsächlich relevante Abschnitte verwenden.
 7. Jede Inventar-Aussage einem Abschnitt zuordnen; Bereich „Verwandte Themen" recherchieren.
 8. Neue Fassung gegen das Aussageinventar prüfen: ist jede Aussage ausdrücklich erhalten?
 9. Seite speichern: `update_wiki_page` (neue Seite: `create_wiki_page` unter der Sammelseite `FT(NN) – Use Cases`). Der Inhalt wird vollständig übergeben und ersetzt den bisherigen — Format HTML.
-10. Kurzen **Redaktionsnachweis** als Kommentar am Projekt veröffentlichen (Begründung und Muster: `../wiki-ablage.md`).
+10. Kurzen **Redaktionsnachweis** als Kommentar an der bearbeiteten Wiki-Seite veröffentlichen (Muster: `../wiki-ablage.md`).
 
 ---
 
@@ -95,7 +95,7 @@ Muster:
 
 ---
 
-## Redaktionsnachweis (Kommentar am Use Case)
+## Redaktionsnachweis (Kommentar an der Wiki-Seite)
 
 Kurz halten — kein Teil des Hauptinhalts. Mindestens:
 

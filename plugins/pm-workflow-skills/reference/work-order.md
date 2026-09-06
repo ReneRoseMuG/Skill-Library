@@ -9,10 +9,25 @@ eigenen `agents.md` auf seine Logpflicht und trägt sein Standard-Log-Ziel in
 
 ## 1. Kontext laden
 
-Parent-Referenz auflösen (`resolve_reference`), dann vollständigen Kontext laden
+Parent-Referenz auflösen (`resolve_reference`), dann Kontext laden
 (`get_reference_context`: rekursive Kinder, Notes, Attachments, Comments, Relationen).
 Zusätzliche Lesetools nur wenn der geladene Kontext nicht ausreicht. Ist der Parent
 nicht ladbar: kontrolliert abbrechen, Blocker dokumentieren statt zu raten.
+
+**Umfang bewusst wählen.** Ohne weitere Angaben lädt `get_reference_context` den
+gesamten Teilbaum samt Anhang-Textvorschauen — bei großen Parents (ganzes Projekt,
+Meilenstein mit vielen Kindern) ist das sehr viel Kontext. Erst orientieren, dann
+vertiefen:
+
+- `depth` begrenzt die Rekursion (`0` = nur das Objekt selbst, `1` = plus direkte Kinder).
+- `include` wählt die Support-Arten (z. B. nur `["comments"]`, wenn es um die Absprachen geht).
+- `attachmentPreviews: false` lässt die Dateitexte weg — der größte Einzelposten.
+- `maxChildrenPerType` deckelt breite Kinderlisten.
+
+Gekürzte Stellen weist das Ergebnis über `childrenTruncated` und `depthLimitReached`
+aus — diese Marker lesen und bei Bedarf gezielt nachladen, statt sie zu übergehen.
+Für einen einzelnen Arbeitsgegenstand (Ticket, Aufgabe) ist der Vollabzug dagegen
+richtig und bleibt die Voreinstellung.
 
 ## 2. Auftrag ableiten
 

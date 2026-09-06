@@ -28,9 +28,10 @@ Nicht jedes Repo nutzt zwingend alle Typen (z. B. kein separates `TASK` neben `T
 
 1. Parent-Referenz extrahieren
 2. `get_reference_context` aufrufen — lädt Parent mit rekursiven Kindern, Notes, Attachments, Comments, Relationen
-3. Ergänzende Lesetools nur wenn `get_reference_context` nicht ausreicht
-4. MCP-Warnungen knapp melden
-5. Bei nicht ladbarem Parent → kontrolliert abbrechen, Blocker dokumentieren
+3. Umfang bewusst wählen: Bei großen Parents (ganzes Projekt, Meilenstein mit vielen Kindern) erst mit `depth: 1` orientieren, `include` auf die benötigten Support-Arten setzen und `attachmentPreviews: false` verwenden — dann gezielt vertiefen. `childrenTruncated` und `depthLimitReached` im Ergebnis zeigen, wo etwas fehlt. Für ein einzelnes Ticket oder eine einzelne Aufgabe bleibt der Vollabzug richtig.
+4. Ergänzende Lesetools nur wenn `get_reference_context` nicht ausreicht
+5. MCP-Warnungen knapp melden
+6. Bei nicht ladbarem Parent → kontrolliert abbrechen, Blocker dokumentieren
 
 Großen Kontextbaum nicht roh ausgeben — nach Relevanz zusammenfassen.
 

@@ -98,8 +98,12 @@ er auf der Gegenseite nachgezogen.
 
 ## Redaktionsnachweis
 
-`add_comment_to_parent` unterstützt keine Wiki-Seiten. Der Redaktionsnachweis wird
-deshalb als Kommentar am Projekt hinterlegt (`add_comment_to_parent` mit
-`parentType: "project"`), mit Seitentitel und Seiten-ID im ersten Satz, damit er
-zuordenbar bleibt. Ist kein Projektbezug bekannt, wird der Nachweis im Chat ausgegeben
-und das im Abschlussbericht vermerkt.
+Der Redaktionsnachweis gehört an die Wiki-Seite selbst: `add_comment_to_parent` mit
+`parentType: "wikiPage"` und der Seiten-ID. Damit steht er dort, wo die Änderung
+stattgefunden hat, und muss nicht mehr über Seitentitel und Seiten-ID zugeordnet werden.
+Notizen (`add_note_to_parent`) und Anhänge (`add_attachment_to_parent`) sind an Wiki-Seiten
+ebenfalls möglich.
+
+Soll der Nachweis zusätzlich am Projekt sichtbar sein, kann er dort ergänzt werden
+(`parentType: "project"`, Seitentitel und Seiten-ID im ersten Satz). Ist die Seite nicht
+erreichbar, wird der Nachweis im Chat ausgegeben und das im Abschlussbericht vermerkt.
