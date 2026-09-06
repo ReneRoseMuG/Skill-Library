@@ -114,3 +114,26 @@ Skills die ein anderes Projekt betreffen oder durch Ebene-1-Inhalte ersetzt wurd
 - Im Claude-Manifest deaktivieren (über Claude-UI)
 - Aus `PROJECT/.claude/skills/` löschen wenn nicht mehr benötigt
 - Nie einfach liegenlassen — veraltete Skills triggern bei falschen Aufträgen
+
+---
+
+## Verteilungsmechanismus (seit 2026-09)
+
+Ebene 1 zerfällt in zwei Verteilungsarten, je nachdem ob der Inhalt tatsächlich
+projektunabhängig ist:
+
+- **`dev-testing/`** — bleibt reine Lesequelle. Kein Plugin, weil der Inhalt beim
+  Instantiieren zu Ebene 3 zwangsläufig Technologiestack-Spezifika bekommt (andere
+  Schichten, andere Dateipfade je Repo). Sync-Mechanismus: manueller Abgleich —
+  Ebene-3-Skill verweist per „Quelle (Ebene 1)"-Fußzeile zurück, Änderung an der
+  Quelle ist ein Signal zum Nachziehen, kein automatischer Prozess.
+- **`plugins/pm-workflow-skills/`** — echtes Claude-Code-Plugin (Marketplace-Manifest
+  `.claude-plugin/marketplace.json` in diesem Repo). Wird von jedem Repo mit
+  Projekt-Manager-Anbindung installiert und bleibt dadurch wortgleich synchron, auch
+  über mehrere Rechner hinweg (`git pull` in dieser Bibliothek + `claude plugin
+  update`, siehe `templates/`). Bundelt zusätzlich den `projekt-manager`-MCP-Server,
+  damit dieser nicht mehr pro Repo einzeln registriert werden muss.
+
+Ein zukünftiger Kandidat für ein eigenes Plugin ist jeder Inhalt, der wie
+`pm-workflow-skills` ausschließlich gegen eine gemeinsame Schnittstelle (MCP,
+API) statt gegen repo-eigenen Code arbeitet.

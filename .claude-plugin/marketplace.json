@@ -1,0 +1,14 @@
+{
+  "name": "skill-library",
+  "owner": {
+    "name": "Rene",
+    "email": "agent@meisel-gerken.de"
+  },
+  "plugins": [
+    {
+      "name": "pm-workflow-skills",
+      "source": "./plugins/pm-workflow-skills",
+      "description": "Projekt-Manager-MCP-Zugriff, Arbeitsauftrags-Orchestrierung, Doku-/Wiki-Redaktion und Tagebuch — projektunabhängig, für jedes Repo mit Projekt-Manager-Anbindung."
+    }
+  ]
+}
