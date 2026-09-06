@@ -9,6 +9,11 @@
       "name": "pm-workflow-skills",
       "source": "./plugins/pm-workflow-skills",
       "description": "Projekt-Manager-MCP-Zugriff, Arbeitsauftrags-Orchestrierung, Doku-/Wiki-Redaktion und Tagebuch — projektunabhängig, für jedes Repo mit Projekt-Manager-Anbindung."
+    },
+    {
+      "name": "dev-testing-skills",
+      "source": "./plugins/dev-testing-skills",
+      "description": "Architektur, Datenmodell, Exploration, Code-Disziplin, Planungs- und Test-Gates — technologiestack-generisch. Liest konkrete Pfade, Muster und Konventionen aus der projekteigenen `.claude/project-context/tech-stack.md`, damit derselbe Skill-Bestand in jedem Repo mit ähnlichem Stack (z. B. TanStack Query + Drizzle ORM) unverändert nutzbar ist."
     }
   ]
 }

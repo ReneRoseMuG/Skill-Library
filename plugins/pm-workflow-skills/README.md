@@ -22,10 +22,11 @@ deren `/mcp`-Pfad eine Authentifizierung verlangt und für dieses Plugin nicht g
 ## Bewusst NICHT enthalten
 
 `architektur`, `code-discipline`, `datenmodell`, `exploration`, `planungsleitplanken`,
-`test-entwurfsleitplanken`, `test-quality-review`, `testing` — diese hängen am jeweiligen
-Technologiestack des Repos und bleiben projekteigene Skills unter `.claude/skills/`. Ihre
-gemeinsame Wissensquelle liegt in dieser Bibliothek unter `dev-testing/`. `leitfaden-pflege`
-bleibt ebenfalls projekteigen (Projekt-Manager-spezifisches Leitfaden-Konzept).
+`test-entwurfsleitplanken`, `test-quality-review`, `testing` — diese liegen im
+separaten Plugin `dev-testing-skills` (siehe dessen README), nicht hier, weil sie
+unabhängig vom Projekt-Manager-Zugriff installierbar sein sollen (z. B. in Repos ohne
+Projekt-Manager-Anbindung). `leitfaden-pflege` bleibt projekteigen
+(Projekt-Manager-spezifisches Leitfaden-Konzept, noch nicht generalisiert).
 
 ## Installation in einem Repo
 

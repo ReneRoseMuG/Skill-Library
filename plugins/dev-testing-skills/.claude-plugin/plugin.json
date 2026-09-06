@@ -1,0 +1,8 @@
+{
+  "name": "dev-testing-skills",
+  "description": "Architektur, Datenmodell, Exploration, Planungs- und Test-Gates, Code-Disziplin — technologiestack-generisch formuliert. Liest die konkreten Pfade, Muster und Konventionen jedes Repos aus dessen eigener .claude/project-context/tech-stack.md, statt sie hart zu codieren. Für alle Repos gedacht, die technisch gleichartig sind (gleiches Grundmuster: geschichtetes TypeScript-Backend + Frontend + ORM), auch wenn die konkrete Ordnerstruktur abweicht.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Rene"
+  }
+}
