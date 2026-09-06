@@ -1,7 +1,8 @@
 # Settings-Vorlage für Konsumenten-Repos
 
-Diese Felder in `.claude/settings.json` jedes Repos ergänzen, das `pm-workflow-skills`
-nutzen soll (Projekt Manager, MuGPlan, künftige Repos mit Projekt-Manager-Anbindung).
+Diese Felder in `.claude/settings.json` jedes Repos ergänzen, das die Plugins dieser Bibliothek
+nutzen soll (Projekt Manager, MuGPlan, künftige Repos mit vergleichbarem Stack). Repos ohne
+Projekt-Manager-Anbindung lassen `pm-workflow-skills` weg und nehmen nur `dev-testing-skills`.
 Bestehende `permissions`/`hooks`-Einträge des Repos bleiben erhalten — diese Felder nur
 ergänzen, nicht die Datei ersetzen.
 
@@ -16,7 +17,8 @@ ergänzen, nicht die Datei ersetzen.
     }
   },
   "enabledPlugins": {
-    "pm-workflow-skills@skill-library": true
+    "pm-workflow-skills@skill-library": true,
+    "dev-testing-skills@skill-library": true
   },
   "hooks": {
     "SessionStart": [
@@ -33,7 +35,7 @@ ergänzen, nicht die Datei ersetzen.
 Zusätzlich `templates/ensure-plugins.sh` aus dieser Bibliothek nach
 `.claude/hooks/ensure-plugins.sh` im Konsumenten-Repo kopieren.
 
-Damit installiert sich `pm-workflow-skills` bei jeder neuen Sitzung automatisch nach —
+Damit installieren sich beide Plugins bei jeder neuen Sitzung automatisch nach —
 auf jedem Rechner (Homeoffice/Büro), ohne dass ein absoluter lokaler Pfad zur Bibliothek
 übereinstimmen muss (GitHub-Quelle, kein lokaler Marketplace-Pfad).
 
@@ -41,3 +43,8 @@ auf jedem Rechner (Homeoffice/Büro), ohne dass ein absoluter lokaler Pfad zur B
 laufen, damit `claude plugin marketplace add`/`claude plugin install` das Plugin tatsächlich
 von GitHub holen können. Danach reicht `git pull` in dieser Bibliothek + der SessionStart-Hook,
 um beide Rechner auf demselben Stand zu halten.
+
+**Nach inhaltlichen Änderungen an einem Plugin** muss dessen `version` in
+`.claude-plugin/plugin.json` erhöht werden. Ohne Versionssprung übernimmt der lokale
+Plugin-Cache die Änderung nicht und `claude plugin update` meldet „already at the latest
+version".
