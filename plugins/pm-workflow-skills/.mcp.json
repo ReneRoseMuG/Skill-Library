@@ -2,7 +2,7 @@
   "mcpServers": {
     "projekt-manager": {
       "type": "http",
-      "url": "http://127.0.0.1:3001/mcp"
+      "url": "http://127.0.0.1:3010/mcp"
     }
   }
 }

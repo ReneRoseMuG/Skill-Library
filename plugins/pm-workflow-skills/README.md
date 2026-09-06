@@ -12,12 +12,12 @@ Workflow-Skills, die in jedem Repo mit Projekt-Manager-Anbindung gleich sein sol
 - **Stop-Hook** `session-log-reminder.sh` — erinnert am Ende jeder Sitzung ans Kommentar-Logging,
   auch ohne genannte PM-Referenz.
 
-## Vor der ersten Nutzung prüfen
+## Verbindung
 
-`.mcp.json` nimmt aktuell `http://127.0.0.1:3001/mcp` an (HTTP-Transport, Port aus den
-bestehenden Projekt-Manager-Konfigurationen übernommen). **Den genauen Pfad/Port gegen die
-tatsächlich laufende Projekt-Manager-MCP-Server-Instanz prüfen und bei Abweichung anpassen** —
-das war beim Anlegen dieses Plugins nicht unabhängig verifizierbar.
+`.mcp.json` verbindet sich über HTTP mit `http://127.0.0.1:3010/mcp` — dem MCP-Server der
+Projekt-Manager-App (`projekt-manager-mcp`). Verifiziert am 2026-09-06 gegen die laufende
+Instanz. Nicht zu verwechseln mit `http://127.0.0.1:3001`: das ist die REST-API der App,
+deren `/mcp`-Pfad eine Authentifizierung verlangt und für dieses Plugin nicht geeignet ist.
 
 ## Bewusst NICHT enthalten
 

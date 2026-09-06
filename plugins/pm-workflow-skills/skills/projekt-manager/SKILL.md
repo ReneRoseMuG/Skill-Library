@@ -97,7 +97,7 @@ Gilt nicht nur bei explizit beauftragten PM-Referenzen: siehe `mcp-code-auftrag`
 1. Nutze immer zuerst `list_projects` um einen Überblick zu bekommen, wenn kein spezifisches Projekt genannt wird.
 2. Bei hierarchischen Abfragen (z.B. Aufgaben eines Projekts) zuerst die Parent-ID ermitteln.
 3. Ergebnisse kompakt und übersichtlich präsentieren — bei langen Listen wichtigste Felder zusammenfassen.
-4. Die API muss lokal laufen (`http://127.0.0.1:3001`). Falls Tools Fehler zurückgeben, darauf hinweisen, dass die Projekt Manager App gestartet sein muss.
+4. Die Projekt-Manager-App muss lokal laufen: REST-API auf `http://127.0.0.1:3001`, MCP-Server auf `http://127.0.0.1:3010`. Falls Tools Fehler zurückgeben, darauf hinweisen, dass die App gestartet sein muss.
 
 ## Textfelder sind HTML
 
