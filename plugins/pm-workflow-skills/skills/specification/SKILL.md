@@ -1,25 +1,28 @@
 ---
 name: specification
 description: >
-  Feature- und Use-Case-Redaktion via Projekt-Manager-MCP.
+  Feature- und Use-Case-Redaktion im Projekt-Manager-Wiki.
   Verwenden wenn Features oder Use Cases geschrieben, überarbeitet, geprüft oder
   aus Anwendersicht aufbereitet werden sollen.
   Auslöser: "schreibe Feature", "überarbeite Use Case", "Feature aus Anwendersicht",
   "Use Cases für Feature X", "redaktionell aufbereiten", "Spec prüfen",
-  "Feature-Beschreibung", "UC-Review", Spezifikation für FEAT-N oder UC-N.
+  "Feature-Beschreibung", "UC-Review", Spezifikation einer Feature- oder Use-Case-Seite.
 ---
 
 # Spezifikationsredaktion — Projekt Manager
 
-MCP ist die Datenquelle und das Speicherziel. Keine Specs ohne MCP-Zugriff bearbeiten.
+Datenquelle und Speicherziel sind Wiki-Seiten im Projekt Manager. Die früheren Domänenobjekte
+Feature und Use Case werden nicht mehr verwendet. Ablage, Nummerierung, Werkzeuge und Umgang mit
+alten FEAT-/UC-Referenzen: `${CLAUDE_PLUGIN_ROOT}/reference/wiki-ablage.md` — vor der ersten
+Schreiboperation lesen.
 
 ## Auftragsart
 
-| Art | MCP-Operationen |
+| Art | Operationen |
 |---|---|
-| Feature schreiben/überarbeiten | `get_feature` → bearbeiten → `update_feature` |
-| Use Case schreiben/überarbeiten | `get_use_case` → bearbeiten → MCP speichern |
-| Audit / Review | `get_feature` + zugehörige UCs lesen — kein Speichern |
+| Feature schreiben/überarbeiten | `get_wiki_page` → bearbeiten → `update_wiki_page` (neu: `create_wiki_page`) |
+| Use Case schreiben/überarbeiten | `get_wiki_page` → bearbeiten → `update_wiki_page` (neu: `create_wiki_page` unter der Sammelseite) |
+| Audit / Review | Feature-Seite + zugehörige Use-Case-Seiten lesen — kein Speichern |
 
 ## Feature schreiben
 
@@ -81,6 +84,6 @@ Prüfpunkte:
 
 **Ergebnis:** Freigegeben | Freigegeben mit Hinweisen | Überarbeitung erforderlich — jeweils mit konkreter Fundstelle und Empfehlung.
 
-Textfelder sind HTML — niemals Markdown übergeben (siehe `projekt-manager`-Skill).
+Seiteninhalte sind HTML. Beim Ändern zuerst `get_wiki_page` lesen und den vollständigen neuen Inhalt übergeben — `update_wiki_page` ersetzt, es ergänzt nicht. Tabellen ausschließlich als `<table>`.
 
 Quelle (Ebene 1): Skill Library, Plugin `pm-workflow-skills`, `reference/specification/` — dort zuerst ändern, dann hier nachziehen.

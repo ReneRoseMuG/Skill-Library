@@ -2,6 +2,8 @@
 
 Erstellt und pflegt Use Cases aus Anwendersicht.
 Use Cases beschreiben konkrete Nutzerinteraktionen — sie sind Implementierungshilfe und Testbasis.
+Datenquelle und Speicherziel ist das Wiki des Projekt Managers — Ablage, Nummerierung und
+Werkzeuge: `../wiki-ablage.md`.
 
 ---
 
@@ -48,16 +50,16 @@ Nur tatsächlich relevante Abschnitte verwenden.
 
 ## Ablauf
 
-1. Übergeordnetes Feature via MCP laden (`get_feature`) — Feature-Regeln sind maßgeblich.
-2. Bestehenden Use Case via MCP laden (`get_use_case`) wenn vorhanden; relevante Beziehungen prüfen.
+1. Übergeordnete Feature-Seite laden (`get_wiki_page`) — die dortigen Feature-Regeln sind maßgeblich.
+2. Bestehende Use-Case-Seite laden (`get_wiki_page`) wenn vorhanden; relevante Beziehungen prüfen. Bei Neuanlage die nächste freie Use-Case-Nummer des Features nach `../wiki-ablage.md` bestimmen.
 3. **Aussageinventar** erstellen — jede eigenständige Aussage erfassen (Ziel, Rollen, Voraussetzungen, Auslöser, Schritte, Entscheidungen, Regeln, Ausnahmen, Fehlerfälle, Folgen, unveränderte Daten, Verweise). Arbeitsmittel.
 4. Hauptablauf aus Anwenderperspektive schreiben — nicht aus Systemperspektive.
 5. Alternativabläufe und Fehlerfälle vollständig ergänzen; Fehlerfälle aus den Feature-Regeln ableiten, mit konkreter Systemreaktion.
 6. Abweichungen oder Widersprüche zu den Feature-Regeln dokumentieren statt sie zu glätten.
 7. Jede Inventar-Aussage einem Abschnitt zuordnen; Bereich „Verwandte Themen" recherchieren.
 8. Neue Fassung gegen das Aussageinventar prüfen: ist jede Aussage ausdrücklich erhalten?
-9. Use Case via MCP speichern (`update_use_case` oder MCP-Äquivalent).
-10. Kurzen **Redaktionsnachweis** als Kommentar am Use Case veröffentlichen (`add_comment_to_parent`).
+9. Seite speichern: `update_wiki_page` (neue Seite: `create_wiki_page` unter der Sammelseite `FT(NN) – Use Cases`). Der Inhalt wird vollständig übergeben und ersetzt den bisherigen — Format HTML.
+10. Kurzen **Redaktionsnachweis** als Kommentar am Projekt veröffentlichen (Begründung und Muster: `../wiki-ablage.md`).
 
 ---
 
@@ -73,7 +75,7 @@ Beziehungstypen für Use Cases (zusätzlich zu den Feature-Typen):
 Muster:
 
 ```
-**UC (xx): Titel**
+**UC (NN/MM): Titel** (Wiki-Seite <id>)
 **Beziehung:** folgt auf
 **Zusammenhang:** Dieser Use Case kann ausgeführt werden, nachdem …
 ```
@@ -111,7 +113,7 @@ Kurz halten — kein Teil des Hauptinhalts. Mindestens:
 - Bei Überarbeitung: jede Aussage des Aussageinventars ausdrücklich erhalten (verlustfrei)
 - Ablauf nachvollziehbar für Anwender ohne Entwicklerhintergrund
 - Fehlerfälle mit konkreter Systemreaktion dokumentiert
-- Verknüpfung zum übergeordneten Feature vorhanden; „Verwandte Themen" mit Referenz, Titel, Beziehungstyp, Begründung
+- Verknüpfung zur übergeordneten Feature-Seite vorhanden; „Verwandte Themen" mit Referenz, Titel, Beziehungstyp, Begründung
 - Kein Widerspruch zu den Feature-Regeln (Abweichungen ausdrücklich gekennzeichnet)
 - Unklarheiten/Widersprüche gekennzeichnet statt geglättet
 - Redaktionsnachweis als Kommentar veröffentlicht

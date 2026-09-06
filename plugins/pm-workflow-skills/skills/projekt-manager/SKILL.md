@@ -33,7 +33,9 @@ Alle Tools des `projekt-manager` MCP Servers stehen zur Verfügung:
 - `add_ticket_to_parent` — neues Ticket anlegen
 - `update_ticket` — Ticket aktualisieren (Status, Felder)
 
-**Features & Use Cases**
+**Features & Use Cases** — *abgekündigt.* Spezifikation und Dokumentation laufen ausschließlich
+über Wiki-Seiten; diese Objekte werden entfernt. Nur noch lesend für Altbestand verwenden, nichts
+Neues anlegen. Verfahren: `${CLAUDE_PLUGIN_ROOT}/reference/wiki-ablage.md`.
 - `list_features` — Features auflisten
 - `get_feature` — ein Feature per ID abrufen
 - `create_feature` — neues Feature anlegen

@@ -1,7 +1,8 @@
 # Inhaltsredaktion
 
 Schreibt und überarbeitet Doku-Inhalte für Features, Use Cases und Wiki-Artikel.
-Quellen: Feature- und Use-Case-Daten via MCP, ergänzt durch Code-Verifikation.
+Quellen: Feature- und Use-Case-Seiten aus dem Wiki, ergänzt durch Code-Verifikation.
+Ablage und Werkzeuge: `../wiki-ablage.md`.
 
 ---
 
@@ -16,10 +17,10 @@ Der Leser ist ein Anwender — kein Entwickler, kein Datenbankadministrator.
 
 ### 1. Quellen laden
 ```
-get_feature(<Feature-ID>)
-get_use_case(<Use-Case-ID>)
+list_wiki_pages(<parentId>)
+get_wiki_page(<Seiten-ID>)
 ```
-Verwandte Features identifizieren und bei Bedarf nachladen.
+Verwandte Seiten identifizieren und bei Bedarf nachladen.
 
 ### 2. Code-Verifikation (wenn nötig)
 Prüfen ob die Doku durch den tatsächlichen Code gestützt wird:

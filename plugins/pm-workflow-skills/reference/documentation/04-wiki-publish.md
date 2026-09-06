@@ -1,6 +1,7 @@
 # Wiki-Publikation
 
-Veröffentlicht fertige Doku-Artikel im Wiki via MCP und prüft die Abnahmekriterien.
+Veröffentlicht fertige Doku-Artikel im Wiki und prüft die Abnahmekriterien.
+Ablage und Werkzeuge: `../wiki-ablage.md`.
 
 ---
 
@@ -16,8 +17,8 @@ Vor der Veröffentlichung müssen erfüllt sein:
 ## Ablauf
 
 1. Finalen Artikel-Inhalt vorbereiten.
-2. Bestehenden Wiki-Artikel via MCP prüfen ob er bereits existiert.
-3. Artikel erstellen oder aktualisieren via MCP.
+2. Über `list_wiki_pages` prüfen, ob der Artikel an der vorgesehenen Stelle bereits existiert.
+3. Artikel anlegen (`create_wiki_page`) oder aktualisieren (`update_wiki_page`) — Inhalt vollständig, Format HTML.
 4. Verlinkungen in verwandten Artikeln aktualisieren.
 5. Abschlussprüfung durchführen.
 

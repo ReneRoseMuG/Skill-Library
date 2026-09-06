@@ -1,33 +1,34 @@
 ---
 name: documentation
 description: >
-  Anwenderdokumentation und Wiki-Artikel via Projekt-Manager-MCP.
+  Anwenderdokumentation und Wiki-Artikel im Projekt-Manager-Wiki.
   Verwenden wenn Wiki-Artikel geschrieben, aktualisiert oder veröffentlicht werden sollen,
-  oder wenn Anwenderdoku für Features und Use Cases erstellt wird.
+  oder wenn Anwenderdoku zu einem Feature oder Use Case erstellt wird.
   Auslöser: "schreibe Wiki", "Wiki-Artikel", "dokumentiere für Anwender",
   "Anwenderdokumentation", "Wiki aktualisieren", "Doku für Feature X",
-  "veröffentliche im Wiki", Wiki-Artikel für FEAT-N oder UC-N.
+  "veröffentliche im Wiki", Artikel zu einer Feature- oder Use-Case-Seite.
 ---
 
 # Anwenderdokumentation — Projekt Manager
 
-Quellen via MCP. Keine Doku ohne Quellen-Verifikation veröffentlichen.
+Quelle und Ziel ist das Wiki des Projekt Managers. Keine Doku ohne Quellen-Verifikation
+veröffentlichen. Ablage, Nummerierung und Werkzeuge: `${CLAUDE_PLUGIN_ROOT}/reference/wiki-ablage.md`.
 
 ## Quellenpriorität
 
 1. Freigegebene Spezifikationen und Akzeptanzkriterien
-2. Features via MCP (`get_feature`)
-3. Use Cases via MCP (`get_use_case`)
+2. Feature-Seiten im Wiki (`get_wiki_page`)
+3. Use-Case-Seiten im Wiki (`get_wiki_page`)
 4. Quellcode als letzte verfügbare Quelle
 
 ## Schritt 1 — Quellen laden
 
 ```
-get_feature(<Feature-ID>)
-get_use_case(<Use-Case-ID>)
+list_wiki_pages(<parentId>)
+get_wiki_page(<Seiten-ID>)
 ```
 
-Verwandte Features identifizieren und bei Bedarf nachladen.
+Verwandte Seiten identifizieren und bei Bedarf nachladen.
 
 ## Schritt 2 — Code-Verifikation (wenn nötig)
 
@@ -68,7 +69,7 @@ Vollständige Prüfliste (Stil, Konsistenz, Verlinkung, Vollständigkeit) und Er
 
 ## Schritt 5 — Veröffentlichen
 
-Wiki-Artikel via MCP anlegen/aktualisieren. Textfelder sind HTML — niemals Markdown übergeben (siehe `projekt-manager`-Skill).
+Artikel anlegen (`create_wiki_page`) oder aktualisieren (`update_wiki_page`). Inhalt vollständig übergeben — `update_wiki_page` ersetzt, es ergänzt nicht. Format HTML; Tabellen ausschließlich als `<table>`.
 
 Verlinkungen in den verwandten Artikeln nachziehen, damit keine einseitigen Querverweise entstehen.
 

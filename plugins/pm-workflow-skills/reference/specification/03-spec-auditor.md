@@ -1,7 +1,7 @@
 # Specification Auditor
 
-Prüft Features und Use Cases auf Qualität, Konsistenz und Vollständigkeit.
-Analysiert — erstellt oder verändert nichts.
+Prüft Feature- und Use-Case-Seiten im Wiki auf Qualität, Konsistenz und Vollständigkeit.
+Analysiert — erstellt oder verändert nichts. Ablage und Werkzeuge: `../wiki-ablage.md`.
 
 ---
 
@@ -53,8 +53,8 @@ Analysiert — erstellt oder verändert nichts.
 
 ## Ablauf
 
-1. Feature via MCP laden (`get_feature`).
-2. Zugehörige Use Cases via MCP laden.
+1. Feature-Seite laden (`get_wiki_page`).
+2. Zugehörige Use-Case-Seiten über die Sammelseite ermitteln (`list_wiki_pages`) und laden (`get_wiki_page`).
 3. Alle Prüfpunkte systematisch durchgehen.
 4. Befunde nach Schweregrad klassifizieren.
 5. Auditbericht erstellen.

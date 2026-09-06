@@ -1,7 +1,8 @@
 # Feature Author
 
 Erstellt und pflegt Feature-Dokumente aus Anwendersicht.
-Verwendet das Projekt-Manager-MCP als Datenquelle und Speicherziel.
+Datenquelle und Speicherziel ist das Wiki des Projekt Managers — Ablage, Nummerierung und
+Werkzeuge: `../wiki-ablage.md`.
 
 ---
 
@@ -36,23 +37,23 @@ Nur tatsächlich relevante Abschnitte verwenden; reine Pro-forma-Abschnitte wegl
 5. **Benutzerführung und Entscheidungen** — Relevante Dialoge, Warnungen, Bestätigungen: Auslöser, angezeigte Information, Möglichkeiten, Folgen, Verhalten bei Abbruch.
 6. **Fachliche Regeln und Randbedingungen** — Nach Themen gegliedert, je Thema kurze Einleitung + abgegrenzte Regeln. Jede Regel lässt Voraussetzung und Folge erkennen; Ausnahmen direkt bei der Regel.
 7. **Sonderfälle** — Fälle, die vom üblichen Ablauf abweichen (Ausgangssituation, abweichendes Verhalten, Folgen). Entfällt, wenn keine bestehen.
-8. **Abgrenzungen** — Was ähnlich erscheint, aber ausdrücklich nicht Teil des Features ist, mit Verweis auf das zuständige Feature/den Use Case.
+8. **Abgrenzungen** — Was ähnlich erscheint, aber ausdrücklich nicht Teil des Features ist, mit Verweis auf die zuständige Feature- oder Use-Case-Seite.
 9. **Verwandte Themen** — Steht immer am Ende (siehe unten).
 
 ---
 
 ## Ablauf
 
-1. Bestehendes Feature-Dokument via MCP laden (`get_feature`).
-2. Fachliche Quellen laden: Spezifikationen, Tickets, verwandte Features, Kommentare, Anhänge (`get_feature` für Verwandte).
+1. Bestehende Feature-Seite laden (`get_wiki_page`). Bei Neuanlage die nächste freie Feature-Nummer und den Ablageort nach `../wiki-ablage.md` bestimmen.
+2. Fachliche Quellen laden: Spezifikationen, Tickets, verwandte Feature-Seiten (`get_wiki_page`), Kommentare, Anhänge.
 3. **Aussageinventar** erstellen — jede eigenständige fachliche Aussage erfassen (Ziel, Rollen, Objekte/Beziehungen, Voraussetzungen, Abläufe, Regeln/Verbote, Ausnahmen, Sonderfälle, Folgen, Abgrenzungen, Verweise). Arbeitsmittel, kein Teil des Dokuments.
 4. Fehlende oder veraltete Abschnitte identifizieren; Unklarheiten und Widersprüche notieren statt sie zu glätten.
 5. Abschnitte schreiben oder überarbeiten und jede Inventar-Aussage einem Abschnitt zuordnen.
 6. Auf Lesbarkeit prüfen: versteht ein fachkundiger Anwender ohne Entwicklerhintergrund?
 7. Bereich „Verwandte Themen" recherchieren und ergänzen (nur fachlich belegbare Beziehungen).
 8. Neue Fassung gegen das Aussageinventar prüfen: ist jede Aussage ausdrücklich erhalten?
-9. Dokument via MCP speichern (`update_feature`).
-10. Kurzen **Redaktionsnachweis** als Kommentar am Feature veröffentlichen (`add_comment_to_parent`).
+9. Seite speichern: `update_wiki_page` (neue Seite: `create_wiki_page`). Der Inhalt wird vollständig übergeben und ersetzt den bisherigen — Format HTML.
+10. Kurzen **Redaktionsnachweis** als Kommentar am Projekt veröffentlichen (Begründung und Muster: `../wiki-ablage.md`).
 
 ---
 
@@ -67,7 +68,7 @@ Zulässige Beziehungstypen für Features:
 Muster:
 
 ```
-**FT (xx): Titel**
+**FT(NN): Titel** (Wiki-Seite <id>)
 **Beziehung:** wird verwendet von
 **Zusammenhang:** Das verknüpfte Feature verwendet die hier verwalteten Daten für …
 ```
@@ -89,7 +90,7 @@ Muster:
 
 ---
 
-## Redaktionsnachweis (Kommentar am Feature)
+## Redaktionsnachweis (Kommentar am Projekt)
 
 Kurz halten — kein Teil des Hauptinhalts. Mindestens:
 

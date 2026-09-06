@@ -3,8 +3,8 @@ name: feature-editorial
 description: >
   Redaktionelle Aufbereitung eines Features aus Anwendersicht. IMMER verwenden wenn
   der Nutzer ein Feature "überarbeiten", "redaktionell aufbereiten", "aus Anwendersicht
-  beschreiben" oder "dokumentieren" möchte — egal ob eine Feature-ID (z. B. FEAT-35)
-  oder ein Feature-Name genannt wird. Auch bei "schreib eine Beschreibung für...",
+  beschreiben" oder "dokumentieren" möchte — egal ob eine Feature-Nummer (z. B. FT(35)),
+  eine Wiki-Seiten-ID oder ein Feature-Name genannt wird. Auch bei "schreib eine Beschreibung für...",
   "erstelle Use Cases für...", "bereite Feature X auf".
 ---
 
@@ -15,7 +15,7 @@ Implementierungsdetails — was das Feature tut und warum es existiert.
 
 ## Schritt 1: Quelle klären
 
-- **Feature-ID angegeben** (z. B. `FEAT-35`) → Feature laden: `get_feature`
+- **Feature benannt** (Nummer `FT(NN)`, Seiten-ID oder Titel) → Feature-Seite suchen (`list_wiki_pages`) und laden (`get_wiki_page`)
 - **Name oder Beschreibung im Chat** → als Ausgangsmaterial verwenden
 - **Unklar** → kurz nachfragen
 
@@ -70,17 +70,20 @@ Querverweise mit kurzer Erklärung.
 
 ## Schritt 5: Ausgabe
 
-Features und Use Cases werden im Projekt Manager gepflegt — MCP ist das Ausgabeziel wenn eine ID bekannt ist.
+Features und Use Cases werden als Wiki-Seiten im Projekt Manager gepflegt. Ablage, Nummerierung
+und Werkzeuge: `${CLAUDE_PLUGIN_ROOT}/reference/wiki-ablage.md`.
 
-Textfelder sind HTML — niemals Markdown übergeben (siehe `projekt-manager`-Skill).
+Seiteninhalte sind HTML; Tabellen ausschließlich als `<table>`. `update_wiki_page` ersetzt den
+Inhalt vollständig — vorher `get_wiki_page` lesen.
 
-**Mit Feature-ID:**
-1. `update_feature` via MCP
-2. Use Cases → `create_use_case` + mit Feature verknüpfen; Status immer `open`
-3. Kurze Rückmeldung was übertragen wurde
+**Seite vorhanden:**
+1. `update_wiki_page` mit dem vollständigen neuen Inhalt
+2. Use Cases → `create_wiki_page` unter der Sammelseite `FT(NN) – Use Cases`, Titel `UC (NN/MM): Titel`
+3. Kurze Rückmeldung was übertragen wurde, mit Seitentitel und Seiten-ID
 
-**Ohne Feature-ID:**
-Fragen: neues Feature anlegen (`create_feature`) oder zunächst nur Durchsicht im Chat?
+**Seite noch nicht vorhanden:**
+Fragen: neue Feature-Seite anlegen (`create_wiki_page` unter der Wurzelseite des Projekts) oder
+zunächst nur Durchsicht im Chat?
 
 ## Stil
 - Aktiv: „Der Anwender kann…", „Das System erlaubt…"

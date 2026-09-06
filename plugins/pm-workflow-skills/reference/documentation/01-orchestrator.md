@@ -1,7 +1,8 @@
 # Anwenderdoku-Orchestrator
 
 Einstiegspunkt für alle Dokumentationsaufträge.
-Verwendet das Projekt-Manager-MCP als primäre Datenquelle (Features, Use Cases, Wiki).
+Primäre Datenquelle und Veröffentlichungsziel ist das Wiki des Projekt Managers — Ablage und
+Werkzeuge: `../wiki-ablage.md`.
 
 ---
 
@@ -14,7 +15,7 @@ Verwendet das Projekt-Manager-MCP als primäre Datenquelle (Features, Use Cases,
 
 ## Nicht-Trigger
 
-- Änderung an Spezifikation (Features/Use Cases) → `specification/`
+- Änderung an der Spezifikation selbst (Feature- oder Use-Case-Seiten) → `specification/
 - Reine Codeanalyse ohne Dokumentationsauftrag
 
 ---
@@ -22,8 +23,8 @@ Verwendet das Projekt-Manager-MCP als primäre Datenquelle (Features, Use Cases,
 ## Quellenpriorität
 
 1. Freigegebene Spezifikation und Akzeptanzkriterien
-2. Features via MCP (`get_feature`)
-3. Use Cases via MCP (`get_use_case`)
+2. Feature-Seiten im Wiki (`get_wiki_page`)
+3. Use-Case-Seiten im Wiki (`get_wiki_page`)
 4. Tickets und Nutzerauftrag
 5. Quellcode als letzte verfügbare Quelle
 
@@ -32,8 +33,8 @@ Verwendet das Projekt-Manager-MCP als primäre Datenquelle (Features, Use Cases,
 ## Pflichtablauf
 
 1. Auftragsart bestimmen: Neuanlage, Aktualisierung, Audit oder vollständiger Lauf.
-2. Betroffene Features und Use Cases via MCP laden.
-3. Verwandte Features und bestehende Wiki-Artikel identifizieren.
+2. Betroffene Feature- und Use-Case-Seiten laden (`list_wiki_pages`, `get_wiki_page`).
+3. Verwandte Seiten und bestehende Anwenderdoku-Artikel identifizieren.
 4. Passende Spezialisierungsskills aktivieren:
    - Inhalt schreiben/überarbeiten → `02-content-edit.md`
    - Stil und Konsistenz prüfen → `03-style-check.md`
