@@ -59,9 +59,19 @@ Widersprüche zwischen Doku und Code immer explizit benennen — nie stillschwei
 - Alle Pflichtabschnitte vorhanden?
 - Einheitliche Anrede im gesamten Artikel?
 - Widersprüche zwischen Doku und Code benannt (nicht verschwiegen)?
+- Verlinkungen zu verwandten Artikeln vorhanden — und bidirektional (verweist B zurück auf A)?
+- Kein Platzhalter, kein offenes TODO, kein inhaltlich leerer Abschnitt?
+- Für fachkundige Anwender ohne Entwicklerhintergrund verständlich?
+
+Vollständige Prüfliste (Stil, Konsistenz, Verlinkung, Vollständigkeit) und Ergebnisstufen:
+`${CLAUDE_PLUGIN_ROOT}/reference/documentation/03-style-check.md` lesen.
 
 ## Schritt 5 — Veröffentlichen
 
 Wiki-Artikel via MCP anlegen/aktualisieren. Textfelder sind HTML — niemals Markdown übergeben (siehe `projekt-manager`-Skill).
+
+Verlinkungen in den verwandten Artikeln nachziehen, damit keine einseitigen Querverweise entstehen.
+
+**Nicht veröffentlichen wenn:** inhaltliche Widersprüche ungeklärt sind, Quellen unklar sind oder offene TODOs im Artikel stehen.
 
 Quelle (Ebene 1): Skill Library, Plugin `pm-workflow-skills`, `reference/documentation/` — dort zuerst ändern, dann hier nachziehen.

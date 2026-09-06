@@ -15,9 +15,9 @@ ergänzen, nicht die Datei ersetzen.
       }
     }
   },
-  "enabledPlugins": [
-    "pm-workflow-skills@skill-library"
-  ],
+  "enabledPlugins": {
+    "pm-workflow-skills@skill-library": true
+  },
   "hooks": {
     "SessionStart": [
       {
