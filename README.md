@@ -16,7 +16,9 @@ Die Bibliothek trennt zwei grundsätzlich verschiedene Dinge:
 | `plugins/pm-workflow-skills/` | Projekt-Manager-MCP-Zugriff + Workflow-Skills (Doku, Spezifikation, Arbeitsauftrag, Tagebuch), die in jedem Repo identisch sein sollen | Echtes Claude-Code-Plugin über den Marketplace dieses Repos — installierbar in jedem Repo, synchron über `git pull` + Plugin-Update |
 
 `templates/` enthält Vorlagen, damit ein Konsumenten-Repo `pm-workflow-skills` automatisch
-(auch auf einem zweiten Rechner) installiert bekommt.
+(auch auf einem zweiten Rechner) installiert bekommt — und mit `templates/projekt-setup.md`
+den Einstieg, der einen neuen Arbeitskontext an ein Projekt des Projekt Managers bindet
+(siehe „Neues Projekt einrichten").
 
 Warum diese Aufteilung: Dev/Testing-Skills verweisen zwangsläufig auf projekteigene Schichten,
 Dateipfade und Konventionen (z. B. welches Frontend-Framework, welche Ordnerstruktur) — sie
@@ -36,9 +38,11 @@ tatsächlich projektunabhängig.
 
 ## Inhalt — plugins/pm-workflow-skills/
 
-MCP-Server `projekt-manager` + 6 Skills (`projekt-manager`, `mcp-code-auftrag`, `documentation`,
-`specification`, `feature-editorial`, `tagebuch`) + Stop-Hook für sitzungsweites Kommentar-Logging.
-Referenzmaterial (Ebene-1-Fassung der Skills) liegt unter `plugins/pm-workflow-skills/reference/`.
+MCP-Server `projekt-manager` + 7 Skills (`projekt-manager`, `projekt-setup`, `mcp-code-auftrag`,
+`documentation`, `specification`, `feature-editorial`, `tagebuch`) + Stop-Hook für sitzungsweites
+Kommentar-Logging. Referenzmaterial (Ebene-1-Fassung der Skills) liegt unter
+`plugins/pm-workflow-skills/reference/`, die Vorlagen der Projekt-Einrichtung unter
+`plugins/pm-workflow-skills/reference/setup/`.
 
 ---
 
@@ -64,6 +68,23 @@ claude plugin install pm-workflow-skills@skill-library
 
 Für automatische Installation bei jeder Sitzung (auch nach einem Rechnerwechsel):
 siehe `templates/settings-snippet.md`.
+
+### Neues Projekt einrichten — von jedem Arbeitsplatz
+
+Ein Repo (Claude Code) oder ein Claude-Projekt (Cowork) wird mit **einem** Auftrag an ein
+Projekt des Projekt Managers gebunden:
+
+```
+"Lies https://raw.githubusercontent.com/ReneRoseMuG/Skill-Library/main/templates/projekt-setup.md
+ und führe die Einrichtung aus."
+```
+
+Die Sitzung fragt `PROJ-<id>` und die Wiki-Wurzelseite ab, verifiziert beides per MCP,
+schreibt die Bindung (`docs/projekt-kontext.md` bzw. Projekt-Doc `claude/projekt-kontext.md`),
+stellt die Skills bereit (Plugins bzw. Account-Skill `pm-workflow`), ergänzt
+`agents.md`/`CLAUDE.md` bzw. die Projektanweisungen und loggt einen Startkommentar.
+Ist das Plugin bereits installiert, genügt „richte das Projekt ein" (Skill `projekt-setup`).
+Ablauf und Vorlagen: `plugins/pm-workflow-skills/reference/setup/`.
 
 ---
 

@@ -137,3 +137,24 @@ projektunabhängig ist:
 Ein zukünftiger Kandidat für ein eigenes Plugin ist jeder Inhalt, der wie
 `pm-workflow-skills` ausschließlich gegen eine gemeinsame Schnittstelle (MCP,
 API) statt gegen repo-eigenen Code arbeitet.
+
+---
+
+## Zwei Arbeitskontexte: Repo und Claude-Projekt
+
+Der Projekt Manager ist in beiden Kontexten die einzige Quelle der Wahrheit; der
+Arbeitskontext hält nur die *Bindung* dorthin und die Regeln. Was im Repo eine Datei
+ist, ist im Claude-Projekt (Cowork) sein Gegenstück:
+
+| Zweck | Repo (Claude Code) | Claude-Projekt (Cowork) |
+|---|---|---|
+| Bindung (IDs) | `docs/projekt-kontext.md`, `.claude/project-context/wiki.md` | Projekt-Doc `claude/projekt-kontext.md` |
+| Regeln (Verfassung) | `agents.md` / `CLAUDE.md` | Projektanweisungen des Claude-Projekts |
+| Skills | Plugins `pm-workflow-skills`, `dev-testing-skills` | Account-Skill `pm-workflow` (Vorlage im Plugin unter `reference/setup/`) |
+| MCP-Zugang | `.mcp.json` des Plugins | MCP-Server in der Claude-Desktop-App registriert |
+| Abschluss-Erinnerung | Stop-Hook `session-log-reminder.sh` | keine Hooks — „Sitzung abschließen" im Skill und in den Projektanweisungen |
+
+Beide Kontexte werden mit demselben Ablauf eingerichtet: Skill `projekt-setup`
+(Referenz und Vorlagen unter `plugins/pm-workflow-skills/reference/setup/`), Einstieg
+ohne Plugin über `templates/projekt-setup.md`. Die konkreten IDs stehen ausschließlich in
+der Bindungsdatei — Skills, Hooks, Verfassung und Projektanweisungen bleiben davon frei.
