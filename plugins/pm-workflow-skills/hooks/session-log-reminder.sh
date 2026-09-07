@@ -15,9 +15,13 @@ case "$INPUT" in *'"stop_hook_active":true'*) exit 0 ;; esac
 SID=$(printf '%s' "$INPUT" | sed -n 's/.*"session_id"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 [ -z "$SID" ] && SID="nosession"
 
-# Marker-Verzeichnis: bevorzugt .git/, sonst .claude/ im aktuellen Arbeitsverzeichnis.
-if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  MARK_DIR=".git/pm-log-hook"
+# Marker-Verzeichnis: bevorzugt das echte Git-Verzeichnis, sonst .claude/ im aktuellen
+# Arbeitsverzeichnis. Wichtig: In einem Git-Worktree ist .git eine Zeigerdatei und kein
+# Ordner - ein fester ".git/..."-Pfad scheitert dort mit "Not a directory". rev-parse
+# --git-dir liefert in jedem Fall das passende Verzeichnis (im Worktree dessen eigenes).
+GIT_DIR_PATH=$(git rev-parse --git-dir 2>/dev/null)
+if [ -n "$GIT_DIR_PATH" ]; then
+  MARK_DIR="$GIT_DIR_PATH/pm-log-hook"
 else
   MARK_DIR=".claude/pm-log-hook"
 fi
@@ -25,7 +29,9 @@ mkdir -p "$MARK_DIR" 2>/dev/null
 
 MARK_FILE="$MARK_DIR/$SID"
 [ -f "$MARK_FILE" ] && exit 0
-: > "$MARK_FILE" 2>/dev/null
+# Klammern noetig: bei ": > datei 2>/dev/null" wertet die Shell die Umleitung der Datei
+# vor 2>/dev/null aus - ein Fehler landete deshalb sichtbar im Hook-Log.
+{ : > "$MARK_FILE"; } 2>/dev/null || true
 
 {
   printf 'Kommentar-Logging (pm-workflow-skills): Pruefe vor Abschluss dieser Sitzung, ob'
