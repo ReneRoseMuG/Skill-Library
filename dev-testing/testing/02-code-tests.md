@@ -36,6 +36,34 @@ und ihre Grenze vom Risiko — nicht von der Bequemlichkeit — bestimmt wird.
 
 ---
 
+## Sonderfall — Oberflächenkomponenten auf Unit-Ebene
+
+Für Komponenten gibt es auf dieser Ebene zwei Ausprägungen. Welche zulässig und wie sie
+aktivierbar ist, steht in der Projektkontextdatei zum Technologiestack.
+
+| Ohne Dokumentmodell | Mit Dokumentmodell |
+|---|---|
+| Erstes Rendern, abgeleitete Werte, Labelbildung | Klick, Eingabe, Auswahl |
+| Weitergereichte Eigenschaften an Kindkomponenten | Formular- und Komponentenzustand nach einer Aktion |
+| Struktur der Ausgabe bei gegebenem Eingang | Effekte, bedingtes Nachladen, Meldungen nach einer Aktion |
+
+**Faustregel:** Setzt das zu beweisende Verhalten eine Nutzeraktion voraus, ist die Umgebung mit
+Dokumentmodell zwingend. Eine Variante ohne Dokumentmodell kann dieses Verhalten technisch nicht
+erreichen — sie bliebe auch dann grün, wenn die Verdrahtung zwischen Bedienung, Zustand und
+ausgelöstem Aufruf vollständig zerstört wäre.
+
+**Mock-Grenze bei Oberflächentests:** Ersetzt werden darf die Datenschicht — Netzwerkaufrufe,
+geteilte Caches, Benachrichtigungen. Nicht ersetzt werden dürfen die Bedienelemente selbst.
+Wer Dialoge, Eingabefelder oder Schaltflächen durch Platzhalter ersetzt, prüft am Ende nur noch
+die Platzhalter und nicht mehr das Verhalten der Komponente.
+
+Wiederkehrende Rüstarbeit — Provider, fehlende Browser-Schnittstellen der Testumgebung,
+Vorbelegung geteilter Zustände — gehört in einen gemeinsamen Testhelfer und nicht in jede
+Testdatei. Fehlt eine benötigte Umgebung im Projekt vollständig, ist das ein Blocker und keine
+Einladung, das Verhalten auf einer schwächeren Ebene scheinbar abzudecken.
+
+---
+
 ## Pflichtablauf — Integrationstests
 
 1. Reale Komponenten bestimmen die am Ergebnis beteiligt sind.

@@ -40,17 +40,21 @@ Ein Test ist nur tragfähig wenn er:
 Bei Code-Bezug zuerst Graphify anwenden (`graphify query` für den geänderten Bereich, `graphify path` zur Persistenz/zum Service), falls laut `tech-stack.md` verfügbar, dann:
 
 1. Testebene festlegen: Unit, Integration oder Browser/E2E
-2. Zu beweisendes Verhalten in einem Satz: Ausgangszustand → Aktion → erwartetes Ergebnis
-3. Echte Objekte und Daten bestimmen die für den Beweis nötig sind
-4. Mock-Entscheidung treffen und begründen
-5. Isolation festlegen gemäß `tech-stack.md` (Temp-DB, In-Memory-DB, benannte Test-DB, `.runtime`/`os.tmpdir()`)
-6. Positive Fälle, Negativfälle, Berechtigungsfälle und Konfliktfälle benennen
-7. Prüfen ob der Test nur Sichtbarkeit oder Implementierungsdetails testet — falls ja, Testziel verschärfen oder verwerfen
+2. Bei Oberflächenkomponenten zusätzlich die Testumgebung festlegen: mit oder ohne Dokumentmodell. Ohne Dokumentmodell sind nur erstes Rendern, abgeleitete Werte und weitergereichte Eigenschaften prüfbar; sobald das Verhalten eine Nutzeraktion voraussetzt — Klick, Eingabe, Auswahl, Effekt, bedingtes Nachladen, Meldung nach einer Aktion — ist die Umgebung mit Dokumentmodell zwingend. Welche Umgebungen das Projekt kennt und wie sie aktiviert werden, steht in `tech-stack.md`, Abschnitt „Tests".
+3. Zu beweisendes Verhalten in einem Satz: Ausgangszustand → Aktion → erwartetes Ergebnis
+4. Echte Objekte und Daten bestimmen die für den Beweis nötig sind
+5. Mock-Entscheidung treffen und begründen
+6. Isolation festlegen gemäß `tech-stack.md` (Temp-DB, In-Memory-DB, benannte Test-DB, `.runtime`/`os.tmpdir()`)
+7. Positive Fälle, Negativfälle, Berechtigungsfälle und Konfliktfälle benennen
+8. Prüfen ob der Test nur Sichtbarkeit oder Implementierungsdetails testet — falls ja, Testziel verschärfen oder verwerfen
+9. Bei Oberflächentests prüfen ob die Bedienelemente selbst gemockt wurden — falls ja, prüft der Test nur noch die Platzhalter und ist zu verwerfen
 
 ## Mock-Regeln
 
 ### Unit-Tests
 Mocks erlaubt für: externe Seiteneffekte (Netzwerk, Uhrzeit, Zufall, Dateizugriff), klar begrenzte Collaborators, Fehlerdoubles für seltene Fehlerpfade. Keine Wunschzustände vortäuschen die im echten System nicht entstehen können.
+
+Bei Oberflächenkomponenten verläuft die Grenze zwischen Datenschicht und Bedienoberfläche: Netzwerkaufrufe, geteilte Caches und Benachrichtigungen dürfen ersetzt werden, Dialoge, Eingabefelder und Schaltflächen nicht. Werden Bedienelemente durch Platzhalter ersetzt, prüft der Test am Ende nur noch die Platzhalter. Wiederkehrende Rüstarbeit — Provider, fehlende Browser-Schnittstellen der Testumgebung, Vorbelegung geteilter Zustände — gehört in einen gemeinsamen Testhelfer, nicht in jede Testdatei.
 
 ### Integrationstests
 Keine Mocks. Echte Objekte, echte Daten, echte Services, Repositories, DB-Clients, Auth-Hooks und API-Antworten. Falls das Repo einen zentralen Testdaten-Einstieg oder eine Test-App-Factory kennt (siehe `tech-stack.md`), immer darüber.

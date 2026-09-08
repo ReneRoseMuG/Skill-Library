@@ -66,6 +66,11 @@ nachschlagen statt zu raten.
    - **Unit** → isolierte Berechnung, Validierung, Zustandslogik — kein DB, kein Browser
    - **Integration** → reale Services, Repositories, DB, Auth, Dateisystem (Test-App-Aufbau aus `tech-stack.md`)
    - **Browser/E2E** → kritischer Nutzerablauf, Risiko entsteht erst im Gesamtsystem
+6. Bei Oberflächenkomponenten zusätzlich die Testumgebung wählen (welche das Projekt kennt und wie sie aktiviert wird, steht in `tech-stack.md`, Abschnitt „Tests"):
+   - **Ohne Dokumentmodell** → nur erstes Rendern, abgeleitete Werte, weitergereichte Eigenschaften
+   - **Mit Dokumentmodell** → zusätzlich Klick, Eingabe, Zustandswechsel, Effekte und die daraus folgenden Aufrufe
+   - Setzt das zu beweisende Verhalten eine Nutzeraktion voraus, ist die Umgebung mit Dokumentmodell zwingend. Ein Test ohne sie bliebe auch bei zerstörter Verdrahtung grün und darf die Regel nicht als abgesichert ausweisen.
+   - Ersetzt werden darf dabei die Datenschicht, nicht die Bedienelemente: Wer Dialoge, Eingabefelder oder Schaltflächen durch Platzhalter ersetzt, prüft nur noch die Platzhalter.
 
 ---
 

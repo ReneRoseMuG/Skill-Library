@@ -53,7 +53,12 @@ Einstiegspunkt für alle Test-Aufträge die mehr als eine einzelne Testebene bet
    - **Unit** → isolierte Berechnung, Validierung, Zustandslogik
    - **Integration** → Zusammenspiel realer Services, Repositories, DB, Auth, Dateisystem
    - **Browser/E2E** → kritischer Nutzerablauf, Risiko entsteht erst im Gesamtsystem
-6. Testdaten, Isolation und Priorität planen.
+6. Bei Oberflächenkomponenten zusätzlich die Testumgebung wählen:
+   - **Ohne Dokumentmodell** → prüfbar sind nur das erste Rendern, abgeleitete Werte und weitergereichte Eigenschaften
+   - **Mit Dokumentmodell** → zusätzlich prüfbar sind Nutzeraktionen, Zustandswechsel, Effekte und die daraus folgenden Aufrufe
+   - Sobald das zu beweisende Verhalten eine Nutzeraktion voraussetzt, ist die Umgebung mit Dokumentmodell zwingend. Ein Test ohne sie kann dieses Verhalten technisch nicht erreichen und bliebe auch bei zerstörter Verdrahtung grün; er darf deshalb nicht als Absicherung der Regel ausgewiesen werden.
+   - Welche Umgebungen das Projekt kennt und wie sie aktiviert werden, steht in der Projektkontextdatei zum Technologiestack. Ist dort keine Umgebung mit Dokumentmodell benannt, gehört das Verhalten auf die Browser-Ebene oder die fehlende Umgebung wird als Blocker gemeldet.
+7. Testdaten, Isolation und Priorität planen.
 
 ---
 
