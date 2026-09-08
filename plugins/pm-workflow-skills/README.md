@@ -19,14 +19,20 @@ Workflow-Skills, die in jedem Repo mit Projekt-Manager-Anbindung gleich sein sol
 ## Projekt-Einrichtung
 
 Der Skill `projekt-setup` bindet einen Arbeitskontext dauerhaft an ein Projekt des Projekt
-Managers: fragt `PROJ-<id>` und Wiki-Wurzelseite ab, verifiziert beides per MCP, schreibt die
-Bindungsdateien, stellt Skills bereit, ergänzt die Projektverfassung und loggt einen
-Startkommentar. Er kennt zwei Kontexte:
+Managers: fragt `PROJ-<id>`, Wiki-Wurzelseite und den Arbeitsplatz (Gerätename,
+Nextcloud-Datenordner, Repo-Klon auf diesem Rechner) ab, verifiziert alles per MCP bzw.
+Dateisystem, schreibt Bindungsdatei und Datenordner-Spiegel, stellt Skills bereit, ergänzt
+die Projektverfassung und loggt einen Startkommentar. Er kennt zwei Kontexte:
 
 | Kontext | Bindung | Skills | Verfassung |
 |---|---|---|---|
 | Repo (Claude Code) | `docs/projekt-kontext.md`, `.claude/project-context/wiki.md` | dieses Plugin (+ optional `dev-testing-skills`) per `settings.json` + SessionStart-Hook | Abschnitt in `agents.md`/`CLAUDE.md` |
-| Claude-Projekt (Cowork) | Projekt-Doc `claude/projekt-kontext.md` | Account-Skill `pm-workflow` (Vorlage `reference/setup/cowork-skill-pm-workflow.md`) | Abschnitt in den Projektanweisungen |
+| Claude-Projekt (Cowork) | Projekt-Doc `claude/projekt-kontext.md` (Master der Bindung) | Account-Skill `pm-workflow` (Vorlage `reference/setup/cowork-skill-pm-workflow.md`) | Abschnitt in den Projektanweisungen |
+
+Die Bindungsdatei führt eine Tabelle „Arbeitsplätze" (je Rechner: Gerätename, Datenordner,
+Repo); ein Rechner, der dort fehlt, wird beim ersten Aufruf ergänzt (Kurzablauf, IDs werden
+nicht erneut abgefragt). Ein Spiegel der Bindung liegt als `projekt-kontext.md` im
+Nextcloud-Datenordner. Modell in `ARCHITECTURE.md`, Abschnitt „Ein Projekt, mehrere Rechner".
 
 Einstieg ohne installiertes Plugin — von jedem Arbeitsplatz: `templates/projekt-setup.md`
 im Wurzelverzeichnis der Bibliothek (per GitHub-Raw-URL oder lokalem Klon an eine Sitzung

@@ -11,11 +11,16 @@ in `agents.md`/`CLAUDE.md` eines Repos.
 
 Dieses Projekt ist an das Projekt-Manager-Projekt **PROJ-{{PROJEKT_ID}} „{{PROJEKT_NAME}}"**
 gebunden. Wiki-Wurzel: Seite {{WIKI_ID}} „{{WIKI_TITEL}}". Standard-Log-Ziel: {{LOG_ZIEL}}.
-Bindung und Konventionen stehen in der Projekt-Doc `claude/projekt-kontext.md` — zu Beginn
-jeder Sitzung lesen. Arbeitsweise: Skill `pm-workflow`.
+Bindung, Arbeitsplätze und Konventionen stehen in der Projekt-Doc `claude/projekt-kontext.md`
+(Master der Bindung) — zu Beginn jeder Sitzung lesen. Arbeitsweise: Skill `pm-workflow`.
 
 - Zu Sitzungsbeginn bei Arbeit mit Projektbezug `get_reference_context("PROJ-{{PROJEKT_ID}}")`
-  laden. Der Projekt Manager ist die Quelle der Wahrheit, nicht das Chat-Gedächtnis.
+  laden. Der Projekt Manager ist die Quelle der Wahrheit, nicht das Chat-Gedächtnis — er ist
+  das gemeinsame Gedächtnis aller Rechner, auf denen dieses Projekt bearbeitet wird.
+- Arbeitsplatz erkennen: Gerätename über `get_device_info` ermitteln und die passende Zeile
+  der Tabelle „Arbeitsplätze" verwenden (Datenordner, Repo). Fehlt der Rechner in der Tabelle:
+  Pfade erfragen, prüfen und die Zeile ergänzen — nie raten, nie Pfade eines anderen Rechners
+  übernehmen. Ordnerzugriff nur anfordern, wenn die Aufgabe Dateien braucht.
 - Arbeitspakete als Meilensteine und Aufgaben im Projekt Manager anlegen und pflegen;
   erledigte Objekte auf `pending` setzen.
 - Arbeitsergebnisse, Entscheidungen und Probleme als Kommentar am bearbeiteten Objekt und

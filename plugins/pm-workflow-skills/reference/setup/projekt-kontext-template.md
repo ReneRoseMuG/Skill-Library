@@ -1,8 +1,8 @@
 # Projektkontext
 
 Bindung dieses Arbeitskontexts an den Projekt Manager. Dies ist die **einzige** Stelle mit
-konkreten Projekt-Manager-IDs — Skills, Hooks und Projektverfassung verweisen hierher und
-enthalten selbst keine ID.
+konkreten Projekt-Manager-IDs und Rechnerpfaden — Skills, Hooks und Projektverfassung
+verweisen hierher und enthalten selbst keine ID und keinen Pfad.
 
 | Feld | Wert |
 |---|---|
@@ -10,9 +10,41 @@ enthalten selbst keine ID.
 | Projekt | `PROJ-{{PROJEKT_ID}}` — {{PROJEKT_NAME}} |
 | Standard-Log-Ziel | `{{LOG_ZIEL}}` |
 | Wiki-Wurzelseite | Seite {{WIKI_ID}} — „{{WIKI_TITEL}}" |
+| Datenordner | {{DATENORDNER_NAME}} (Nextcloud-synchronisiert; lokaler Pfad je Rechner s. u.) |
+| Repo | {{REPO_REMOTE}} |
+| Master dieser Bindung | {{MASTER}} |
 | Eingerichtet am | {{DATUM}} |
 
-<!-- KONTEXT_ART: „Repo" oder „Claude-Projekt". Ohne Wiki: Zeile „Wiki-Wurzelseite" auf „kein Wiki" setzen. -->
+<!--
+KONTEXT_ART: „Repo" oder „Claude-Projekt". Ohne Wiki: Zeile „Wiki-Wurzelseite" auf „kein Wiki".
+DATENORDNER_NAME: Name bzw. relativer Pfad des Ordners innerhalb von Nextcloud (rechnerunabhängig),
+  z. B. „Projekte/MuG Plan"; ohne Datenordner: „kein Datenordner".
+REPO_REMOTE: Remote-URL des Git-Repos; ohne Repo: „kein Repo".
+MASTER: „Projekt-Doc claude/projekt-kontext.md im Claude-Projekt „<Name>"" — oder „diese Datei",
+  wenn das Projekt kein Claude-Projekt hat. Spiegel (Datenordner, Repo) werden bei Abweichung
+  aus dem Master aktualisiert, nie umgekehrt ohne Rückfrage.
+-->
+
+## Arbeitsplätze
+
+Das Projekt wird auf mehreren Rechnern bearbeitet; der Projekt Manager ist ihr gemeinsames
+Gedächtnis, diese Tabelle ihre lokale Bindung. Je Rechner eine Zeile. Schlüssel ist der
+Gerätename, wie ihn die Claude-Desktop-App meldet (Cowork: `get_device_info` → `deviceName`;
+Claude Code: `hostname`). Pfade absolut, so wie sie auf **diesem** Rechner gelten —
+Benutzername und Ordnerstruktur unterscheiden sich je Rechner.
+
+| Gerätename | Datenordner (lokaler Nextcloud-Pfad) | Repo (lokaler Klon) | Bemerkung |
+|---|---|---|---|
+| {{GERAET_1}} | `{{DATENORDNER_PFAD_1}}` | `{{REPO_PFAD_1}}` | {{BEMERKUNG_1}} |
+
+<!-- Ohne Repo: Spalte „Repo" auf „—". Weitere Rechner werden beim ersten Aufruf dort ergänzt. -->
+
+Regeln:
+- Unbekannter Gerätename → Zeile beim Nutzer erfragen, Pfade auf Existenz prüfen, dann
+  ergänzen. Nie raten, nie Pfade eines anderen Rechners übernehmen.
+- Änderungen an dieser Tabelle zuerst im Master, dann in den Spiegeln.
+- Ein Spiegel dieser Datei liegt als `projekt-kontext.md` im Datenordner — dadurch auf allen
+  Rechnern vorhanden, auch ohne Zugriff auf das Claude-Projekt.
 
 ## Arbeitskonventionen
 

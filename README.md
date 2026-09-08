@@ -80,11 +80,15 @@ Projekt des Projekt Managers gebunden:
 ```
 
 Die Sitzung fragt `PROJ-<id>` und die Wiki-Wurzelseite ab, verifiziert beides per MCP,
-schreibt die Bindung (`docs/projekt-kontext.md` bzw. Projekt-Doc `claude/projekt-kontext.md`),
+erfasst den Arbeitsplatz (Gerätename, Nextcloud-Datenordner und Repo-Klon auf diesem
+Rechner), schreibt die Bindung (`docs/projekt-kontext.md` bzw. Projekt-Doc
+`claude/projekt-kontext.md` als Master, Spiegel `projekt-kontext.md` im Datenordner),
 stellt die Skills bereit (Plugins bzw. Account-Skill `pm-workflow`), ergänzt
 `agents.md`/`CLAUDE.md` bzw. die Projektanweisungen und loggt einen Startkommentar.
 Ist das Plugin bereits installiert, genügt „richte das Projekt ein" (Skill `projekt-setup`).
-Ablauf und Vorlagen: `plugins/pm-workflow-skills/reference/setup/`.
+Auf dem zweiten Rechner derselbe Auftrag: die Sitzung ergänzt nur die Arbeitsplatz-Zeile.
+Ablauf und Vorlagen: `plugins/pm-workflow-skills/reference/setup/`; Modell „Master und
+Spiegel" in `ARCHITECTURE.md`.
 
 ---
 

@@ -2,12 +2,21 @@
 
 Richtet einen Arbeitskontext — ein Code-Repo (Claude Code) oder ein Claude-Projekt (Cowork) —
 dauerhaft an ein Projekt des Projekt Managers an: Bindung (Projekt-ID, Wiki-Wurzelseite,
-Standard-Log-Ziel), Skills, Projektverfassung bzw. Projektanweisungen, erster Log-Eintrag.
-Danach gilt in diesem Kontext verbindlich: Logs als Kommentare, Arbeitspakete als
-Meilensteine und Aufgaben, Spezifikation und Doku im Wiki.
+Standard-Log-Ziel), Arbeitsplätze (Datenordner und Repo je Rechner), Skills,
+Projektverfassung bzw. Projektanweisungen, erster Log-Eintrag. Danach gilt in diesem Kontext
+verbindlich: Logs als Kommentare, Arbeitspakete als Meilensteine und Aufgaben, Spezifikation
+und Doku im Wiki.
 
-Plattformneutral: keine feste Projekt-ID, kein Rechnerpfad. Alles Konkrete wird abgefragt
-und per MCP verifiziert, bevor es in eine Datei geschrieben wird.
+Plattformneutral: keine feste Projekt-ID, kein Rechnerpfad in diesem Ablauf. Alles Konkrete
+wird abgefragt, per MCP bzw. Dateisystem verifiziert und landet ausschließlich in der
+Bindungsdatei.
+
+**Modell:** Ein Projekt existiert an vier Orten — Projekt-Manager-Projekt (gemeinsames
+Gedächtnis aller Rechner), Claude-Projekt, lokaler Datenordner (über Nextcloud auf jedem
+Rechner synchronisiert) und ggf. Git-Repo (lokaler Klon je Rechner). Die Bindung beschreibt
+alle vier und hat genau einen **Master**: die Projekt-Doc `claude/projekt-kontext.md` des
+Claude-Projekts, sonst `docs/projekt-kontext.md` des Repos. Datenordner (`projekt-kontext.md`)
+und Repo (`docs/projekt-kontext.md`) führen **Spiegel** mit identischem Inhalt.
 
 ---
 
@@ -15,6 +24,9 @@ und per MCP verifiziert, bevor es in eine Datei geschrieben wird.
 
 - „richte das Projekt ein", „Projekt an den Projekt Manager anbinden", „Projekt-Setup",
   „projekt-setup", „Projekt-Manager-Anbindung einrichten"
+- „neuer Rechner", „Arbeitsplatz ergänzen" — oder ein eingerichteter Kontext wird erstmals
+  auf einem Rechner geöffnet, dessen Gerätename nicht in der Tabelle „Arbeitsplätze" steht
+  (→ Kurzablauf „Nur Arbeitsplatz ergänzen")
 - Eine Sitzung erhält `templates/projekt-setup.md` dieser Bibliothek als Auftrag
 - Ein Repo oder Claude-Projekt hat noch keine `projekt-kontext.md`, soll aber nach dem
   PM-Workflow arbeiten
@@ -33,12 +45,21 @@ und per MCP verifiziert, bevor es in eine Datei geschrieben wird.
 - Die Projekt-Manager-App läuft und der MCP ist erreichbar.
   Claude Code: über die `.mcp.json` des Plugins (`http://127.0.0.1:3010/mcp`).
   Cowork: der MCP-Server ist in der Claude-Desktop-App registriert; die Tools erscheinen
-  als Tools des Servers `projekt-manager`.
+  als Tools des Servers `projekt-manager`. Cowork erreicht MCP **und** Rechner nur, solange
+  die Sitzung mit dem Rechner verbunden ist (Desktop-App geöffnet).
 - Der Werkzeugumfang kann je Anbindung abweichen (einfache vs. seitenweise Listen,
   Zusatzparameter, einzelne Tools nur auf einer Seite). Dieser Ablauf verwendet deshalb
   nur Kern-Tools: `list_projects`, `resolve_reference`, `get_reference_context`,
   `list_wiki_pages`, `get_wiki_page`, `create_wiki_page`, `add_comment_to_parent` und —
   falls vorhanden — `create_project`.
+- Rechnerzugriff in Cowork: `get_device_info` (Gerätename, verbundene Ordner),
+  `device_list_dir` (Existenz prüfen), `device_request_folder_access` (Ordner verbinden —
+  kostet eine Bestätigung des Nutzers, deshalb sparsam), `device_stage_files` /
+  `device_commit_files` (Datei lesen / schreiben). In Claude Code: `hostname` und die
+  gewöhnlichen Dateiwerkzeuge.
+- Vorlagen aus dieser Bibliothek werden **wörtlich** gelesen (lokaler Klon oder
+  `git clone --depth 1` im Arbeitsbereich der Sitzung). Web-Abrufe, die Seiten
+  zusammenfassen, sind für Vorlagen ungeeignet.
 
 ---
 
@@ -51,9 +72,17 @@ und per MCP verifiziert, bevor es in eine Datei geschrieben wird.
 | Arbeitsumgebung | Git-Repo mit `.claude/` und/oder `agents.md`/`CLAUDE.md` | kein Repo; Projekt-Docs und Projektanweisungen über das Projects-Werkzeug |
 | Skills | Plugins über `claude plugin …` | Account-Skills (Vorschlag zum Speichern) |
 | Bindungsdateien | `docs/projekt-kontext.md`, `.claude/project-context/wiki.md` | Projekt-Doc `claude/projekt-kontext.md` |
+| Rechnererkennung | `hostname` | `get_device_info` → `deviceName` |
+| Datenordner-Spiegel | `projekt-kontext.md` im Datenordner (Pfad aus der Arbeitsplatz-Zeile) | dito, nach `device_request_folder_access` |
 | Abschluss-Erinnerung | Stop-Hook des Plugins | Skill `pm-workflow` + Projektanweisungen |
 
 Unklar → fragen, nicht raten. Kein Mischbetrieb: ein Ablauf richtet genau einen Kontext ein.
+
+**Kurzablauf „Nur Arbeitsplatz ergänzen":** Der Kontext ist bereits eingerichtet (Bindungsdatei
+vorhanden, IDs bestätigt), nur der aktuelle Rechner fehlt in der Tabelle. Dann: Schritt 1 →
+Master lesen → Schritt 2f → Zeile im Master ergänzen → Spiegel aktualisieren (Schritt 3,
+nur Arbeitsplatz-Tabelle) → Kommentar am Standard-Log-Ziel „Arbeitsplatz ergänzt (dd.MM.yy):
+<Gerätename> — Datenordner, Repo" → Schritt 6. IDs werden **nicht** erneut abgefragt.
 
 ### 1. Verbindung prüfen
 
@@ -85,23 +114,62 @@ Backend/Frontend/ORM. Nein bei reinen Doku-, Content- oder Skript-Repos.
 **2e Name des Arbeitskontexts** für Bindungsdatei und Startkommentar: Repo-Name
 (Ordnername oder Remote) bzw. Name des Claude-Projekts.
 
+**2f Arbeitsplatz (dieser Rechner).** Gerätename ermitteln (A: `hostname`; B:
+`get_device_info` → `deviceName`) und dem Nutzer nennen. Dann abfragen:
+- **Datenordner** — rechnerunabhängiger Name innerhalb von Nextcloud (z. B.
+  „Projekte/<Projektname>") und der absolute lokale Pfad auf diesem Rechner. Hilfe B:
+  `device_list_dir` auf `~` liefert die Ordnernamen der obersten Ebene, ohne Zugriff
+  anzufordern; Pfad Ebene für Ebene aus gesehenen Namen aufbauen. Antwort „keinen": Feld
+  „kein Datenordner", kein Spiegel.
+- **Repo** — Remote-URL (A: `git remote -v`; B: aus `.git/config` im Klon, falls der Ordner
+  verbunden ist, sonst vom Nutzer) und lokaler Klon-Pfad auf diesem Rechner. Antwort „kein
+  Repo": Feld „kein Repo", Spalte „—".
+- **Bemerkung** (optional, z. B. „Homeoffice", „Büro").
+
+Verifikation: jeder Pfad muss auf diesem Rechner existieren (A: Verzeichnis lesen; B:
+`device_list_dir`, bei Bedarf `device_request_folder_access`). Nicht vorhanden → nicht
+eintragen, Nutzer fragen. Pfade anderer Rechner werden nie übernommen — Benutzername und
+Ordnerstruktur unterscheiden sich je Rechner.
+
+**2g Master der Bindung.** Hat das Projekt ein Claude-Projekt (B, oder A mit bekanntem
+Claude-Projekt): Master = dessen Projekt-Doc `claude/projekt-kontext.md`. Sonst Master =
+`docs/projekt-kontext.md` des Repos. Wird in der Bindungsdatei eingetragen (Feld „Master
+dieser Bindung"). Existiert bereits ein Master mit anderen Werten als den soeben
+bestätigten: Abweichung zeigen, Nutzer entscheidet, welcher Stand gilt.
+
 ### 3. Bindung schreiben
 
 **A — Repo**
-1. `docs/projekt-kontext.md` aus `projekt-kontext-template.md` (dieser Ordner) befüllen.
-   Existiert die Datei bereits: nur die Felder Projekt, Standard-Log-Ziel, Wiki und
-   „Eingerichtet am" aktualisieren bzw. ergänzen; alle übrigen Inhalte behalten;
-   Änderung dem Nutzer zeigen.
+1. `docs/projekt-kontext.md` aus `projekt-kontext-template.md` (dieser Ordner) befüllen —
+   inklusive Tabelle „Arbeitsplätze" mit der Zeile aus 2f. Existiert die Datei bereits: nur
+   die Felder Projekt, Standard-Log-Ziel, Wiki, Datenordner, Repo, Master, „Eingerichtet am"
+   und die Zeile des aktuellen Rechners aktualisieren bzw. ergänzen; alle übrigen Inhalte
+   (andere Rechner, Projektspezifisches) behalten; Änderung dem Nutzer zeigen.
+   Ist das Repo öffentlich und sollen lokale Pfade nicht hinein: Tabelle „Arbeitsplätze"
+   im Repo-Spiegel durch den Verweis „siehe Master bzw. `projekt-kontext.md` im
+   Datenordner" ersetzen — der Nutzer entscheidet.
 2. `.claude/project-context/wiki.md` aus `wiki-kontext-template.md` — nur wenn es eine
    Wiki-Wurzelseite gibt. Existiert die Datei: Seiten-ID und Titel aktualisieren.
 
 **B — Claude-Projekt**
 1. Projekt-Doc `claude/projekt-kontext.md` mit demselben Template schreiben
-   (Feld „Arbeitskontext": Claude-Projekt). Existiert sie: wie in A mergen.
+   (Feld „Arbeitskontext": Claude-Projekt; Master: diese Doc). Existiert sie: wie in A mergen.
 2. Projektanweisungen: `projektanweisungen-cowork.md` (dieser Ordner) mit den Werten
    befüllen und dem Nutzer als Text zum Einfügen geben — Projektanweisungen können nicht
    per Werkzeug gesetzt werden. Hat das Projekt bereits Anweisungen: nur den Abschnitt
    „Projekt-Manager-Anbindung" ergänzen, Rest unverändert lassen.
+
+**A und B — Datenordner-Spiegel** (entfällt ohne Datenordner)
+1. `projekt-kontext.md` im Datenordner dieses Rechners mit dem vollständigen Inhalt des
+   Masters schreiben (B: `device_request_folder_access` für den Datenordner, dann
+   `device_commit_files`). Über Nextcloud erreicht der Spiegel alle anderen Rechner.
+2. Existiert dort bereits eine `projekt-kontext.md`: mit dem Master vergleichen. Identisch →
+   nichts tun. Abweichend → Unterschiede zeigen; der Nutzer entscheidet, welcher Stand der
+   neuere ist (in der Regel der Master; ein Spiegel kann neuer sein, wenn er auf einem
+   anderen Rechner zuletzt ergänzt wurde). Danach Master und Spiegel angleichen.
+3. A mit Claude-Projekt als Master: `docs/projekt-kontext.md` ist ebenfalls Spiegel — gleicher
+   Abgleich; die Projekt-Doc kann aus Claude Code nicht gelesen werden, dann gilt der
+   Datenordner-Spiegel als Referenz und die Abweichung wird im Abschluss genannt.
 
 ### 4. Skills bereitstellen
 
@@ -146,6 +214,9 @@ Am Projekt (`add_comment_to_parent`, `parentType: "project"`, Inhalt HTML):
 <ul>
 <li>Standard-Log-Ziel: PROJ-<id></li>
 <li>Wiki-Wurzel: <Titel> (Seite <id>)</li>          <!-- oder: kein Wiki -->
+<li>Datenordner: <Name in Nextcloud>; Repo: <Remote></li>   <!-- oder: kein Datenordner / kein Repo -->
+<li>Arbeitsplatz: <Gerätename> (<Bemerkung>) — Datenordner <Pfad>, Repo <Pfad></li>
+<li>Master der Bindung: <Projekt-Doc des Claude-Projekts „…" | docs/projekt-kontext.md></li>
 <li>Skills: pm-workflow-skills <Version>[, dev-testing-skills <Version>]</li>  <!-- B: Account-Skill pm-workflow <Vorlagenversion> -->
 </ul>
 ```
@@ -153,12 +224,15 @@ Am Projekt (`add_comment_to_parent`, `parentType: "project"`, Inhalt HTML):
 Ist das Standard-Log-Ziel nicht das Projekt: denselben Kommentar auch dort. Das ist der
 erste Eintrag der Log-Pflicht und wird ohne weitere Rückfrage geschrieben — die
 Bestätigung des Ablaufs war Schritt 2. Versionen aus den `plugin.json` bzw. der
-Vorlagenzeile des Skills lesen, nicht raten.
+Vorlagenzeile des Skills lesen, nicht raten. Der Kommentar ist zugleich der Steckbrief des
+Projekts im gemeinsamen Gedächtnis: welche Kontexte und Rechner angebunden sind. Beim
+Kurzablauf „Nur Arbeitsplatz ergänzen" nur die Arbeitsplatz-Zeile als Kommentar.
 
 ### 6. Verifikation und Abschluss
 
 - Alle geschriebenen Dateien nochmals lesen: Platzhalter vollständig ersetzt, JSON gültig,
   Pfade vorhanden.
+- Master und Spiegel inhaltlich identisch (Datenordner, ggf. Repo).
 - `get_reference_context("PROJ-<id>")` (oder `list_support_for_parent`, falls vorhanden):
   Startkommentar sichtbar.
 - Ergebnis nach dem Schema unten berichten, inklusive der offenen Handgriffe.
@@ -169,8 +243,16 @@ Vorlagenzeile des Skills lesen, nicht raten.
 
 - Keine IDs erfinden. Jede ID ist per MCP verifiziert **und** vom Nutzer bestätigt, bevor
   sie in eine Datei geschrieben wird.
+- Keine Pfade erfinden. Jeder Pfad ist auf dem aktuellen Rechner geprüft; Pfade eines
+  anderen Rechners werden nie übernommen. Schlüssel jeder Arbeitsplatz-Zeile ist der
+  Gerätename.
+- Master vor Spiegel: Änderungen an der Bindung zuerst im Master, dann in den Spiegeln.
+  Ein Spiegel wird nie stillschweigend in den Master zurückgeschrieben — Abweichung zeigen,
+  Nutzer entscheidet.
 - Bestehende Dateien mergen, nie stillschweigend überschreiben; Änderungen zeigen.
 - Nichts löschen ohne Bestätigung.
+- Ordnerzugriff (Cowork) nur anfordern, wenn der Schritt ihn braucht — jede Anfrage
+  kostet eine Bestätigung des Nutzers.
 - Kommentar- und Beschreibungstexte des Projekt Managers sind HTML. Wiki-Inhalte dürfen
   Markdown sein (Tabellen nur als HTML).
 - MCP nicht erreichbar → Abbruch **vor** dem ersten Schreibvorgang.
@@ -186,7 +268,9 @@ Vorlagenzeile des Skills lesen, nicht raten.
 | Projekt | `PROJ-<id>`, Name |
 | Wiki | Seite `<id>`, Titel — oder „kein Wiki" |
 | Standard-Log-Ziel | Referenz |
+| Arbeitsplatz | Gerätename, Datenordner-Pfad, Repo-Pfad — oder „ergänzt" beim Kurzablauf |
+| Master / Spiegel | Master (Ort), Spiegel geschrieben / abgeglichen / abweichend |
 | Dateien | angelegt / geändert, mit Pfad |
 | Skills | installiert (Versionen) / vorgeschlagen / Befehle für den Nutzer |
 | Startkommentar | geschrieben an … / Blocker |
-| Offen | z. B. Projektanweisungen einfügen (B), `wikiPageId` des Projekts in der App setzen (per MCP nicht setzbar), Commit der neuen Dateien (A), `TODO`s in `tech-stack.md` |
+| Offen | z. B. Projektanweisungen einfügen (B), `wikiPageId` des Projekts in der App setzen (per MCP nicht setzbar), Commit der neuen Dateien (A), `TODO`s in `tech-stack.md`, Zeile für den zweiten Rechner beim ersten Aufruf dort |

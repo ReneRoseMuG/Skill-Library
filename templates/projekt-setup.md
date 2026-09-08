@@ -17,16 +17,26 @@ wird dauerhaft an ein Projekt des Projekt Managers gebunden:
 
 - Projekt-ID (`PROJ-<id>`, Pflicht) und Wiki-Wurzelseite (falls vorhanden) werden abgefragt
   und per MCP verifiziert; Standard-Log-Ziel wird festgelegt.
+- Der Arbeitsplatz wird erfasst: Gerätename dieses Rechners, lokaler Pfad des
+  Nextcloud-Datenordners, lokaler Klon-Pfad des Repos (falls vorhanden) — jeder Pfad wird
+  auf diesem Rechner geprüft. Je Rechner eine Zeile in der Tabelle „Arbeitsplätze".
 - Die Bindung wird geschrieben: Repo → `docs/projekt-kontext.md` und
-  `.claude/project-context/wiki.md`; Claude-Projekt → Projekt-Doc `claude/projekt-kontext.md`.
+  `.claude/project-context/wiki.md`; Claude-Projekt → Projekt-Doc `claude/projekt-kontext.md`
+  (Master). Zusätzlich ein Spiegel `projekt-kontext.md` im Datenordner, der über Nextcloud
+  alle Rechner erreicht.
 - Skills werden bereitgestellt: Repo → Plugins `pm-workflow-skills` (und optional
   `dev-testing-skills`) samt SessionStart-Hook; Claude-Projekt → Account-Skill `pm-workflow`.
 - Projektverfassung (`agents.md`/`CLAUDE.md`) bzw. Projektanweisungen bekommen den Abschnitt
   „Projekt-Manager-Anbindung".
-- Ein Startkommentar wird im Projekt geloggt.
+- Ein Startkommentar wird im Projekt geloggt — der Steckbrief des Projekts im gemeinsamen
+  Gedächtnis.
 
 Danach gilt in diesem Kontext: Logs als Kommentare, Arbeitspakete als Meilensteine und
 Aufgaben, Spezifikation und Doku im Wiki.
+
+**Zweiter Rechner:** derselbe Auftrag. Die Sitzung erkennt, dass die Bindung schon existiert
+und nur der Gerätename fehlt, fragt Datenordner- und Repo-Pfad für diesen Rechner ab und
+ergänzt die Zeile — IDs werden nicht erneut abgefragt.
 
 ## Anweisung an die Sitzung
 

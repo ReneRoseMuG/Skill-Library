@@ -148,13 +148,43 @@ ist, ist im Claude-Projekt (Cowork) sein Gegenstück:
 
 | Zweck | Repo (Claude Code) | Claude-Projekt (Cowork) |
 |---|---|---|
-| Bindung (IDs) | `docs/projekt-kontext.md`, `.claude/project-context/wiki.md` | Projekt-Doc `claude/projekt-kontext.md` |
+| Bindung (IDs, Arbeitsplätze) | `docs/projekt-kontext.md`, `.claude/project-context/wiki.md` | Projekt-Doc `claude/projekt-kontext.md` |
 | Regeln (Verfassung) | `agents.md` / `CLAUDE.md` | Projektanweisungen des Claude-Projekts |
 | Skills | Plugins `pm-workflow-skills`, `dev-testing-skills` | Account-Skill `pm-workflow` (Vorlage im Plugin unter `reference/setup/`) |
 | MCP-Zugang | `.mcp.json` des Plugins | MCP-Server in der Claude-Desktop-App registriert |
+| Rechnererkennung | `hostname` | `get_device_info` → `deviceName` |
 | Abschluss-Erinnerung | Stop-Hook `session-log-reminder.sh` | keine Hooks — „Sitzung abschließen" im Skill und in den Projektanweisungen |
 
 Beide Kontexte werden mit demselben Ablauf eingerichtet: Skill `projekt-setup`
 (Referenz und Vorlagen unter `plugins/pm-workflow-skills/reference/setup/`), Einstieg
-ohne Plugin über `templates/projekt-setup.md`. Die konkreten IDs stehen ausschließlich in
-der Bindungsdatei — Skills, Hooks, Verfassung und Projektanweisungen bleiben davon frei.
+ohne Plugin über `templates/projekt-setup.md`. Die konkreten IDs und Rechnerpfade stehen
+ausschließlich in der Bindungsdatei — Skills, Hooks, Verfassung und Projektanweisungen
+bleiben davon frei.
+
+---
+
+## Ein Projekt, mehrere Rechner: Master und Spiegel
+
+Ein Projekt wird abwechselnd auf mehreren Rechnern bearbeitet und existiert dabei an vier
+Orten:
+
+| Ort | Rolle | Synchronisation |
+|---|---|---|
+| Projekt-Manager-Projekt (+ Wiki-Wurzelseite) | gemeinsames Gedächtnis: Arbeitsstand, Logs, Arbeitspakete, Spezifikation | zentral, per MCP von jedem Rechner |
+| Claude-Projekt (Cowork) | Chat-Arbeitskontext; hält die Bindung | Cloud, von jedem Rechner und ohne Rechner-Link lesbar |
+| Lokaler Datenordner | Projektdateien | Nextcloud, auf jedem Rechner unter einem anderen absoluten Pfad |
+| Git-Repo (optional) | Code, Repo-Doku | GitHub, lokaler Klon je Rechner |
+
+Die Bindungsdatei (`projekt-kontext-template.md`) beschreibt alle vier Orte und führt eine
+Tabelle **„Arbeitsplätze"**: je Rechner eine Zeile mit Gerätename als Schlüssel,
+Datenordner-Pfad und Repo-Pfad. Skills lesen die Zeile des aktuellen Rechners und raten nie
+Pfade; ein unbekannter Rechner wird beim ersten Aufruf abgefragt und ergänzt (Kurzablauf
+„Nur Arbeitsplatz ergänzen" in `projekt-setup`).
+
+Es gibt genau einen **Master** der Bindung — die Projekt-Doc des Claude-Projekts, sonst
+`docs/projekt-kontext.md` des Repos — und **Spiegel** mit identischem Inhalt:
+`projekt-kontext.md` im Datenordner (erreicht über Nextcloud alle Rechner, auch ohne
+Zugriff auf das Claude-Projekt) und `docs/projekt-kontext.md` im Repo. Änderungen gehen
+zuerst in den Master, dann in die Spiegel; ein abweichender Spiegel wird gezeigt, nie
+stillschweigend zurückgeschrieben. Der Startkommentar im Projekt-Manager-Projekt ist der
+Steckbrief, welche Kontexte und Rechner angebunden sind.

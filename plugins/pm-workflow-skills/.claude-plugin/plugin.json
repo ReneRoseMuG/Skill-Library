@@ -1,7 +1,7 @@
 {
   "name": "pm-workflow-skills",
-  "description": "PM-Workflow-Skills: Projekt-Manager-MCP-Basiszugriff, Projekt-Einrichtung (Bindung eines Repos oder Claude-Projekts an ein PM-Projekt), Arbeitsauftrags-Orchestrierung (PROJ/MS/TASK/TKT/FEAT/UC), Anwenderdokumentation im Wiki, Spezifikationsredaktion im Wiki, Feature-Editorial und Projekt-Tagebuch. Bündelt außerdem den projekt-manager-MCP-Server, damit er in jedem Repo, das dieses Plugin installiert, gleich verfügbar ist.",
-  "version": "1.3.0",
+  "description": "PM-Workflow-Skills: Projekt-Manager-MCP-Basiszugriff, Projekt-Einrichtung (Bindung eines Repos oder Claude-Projekts an ein PM-Projekt, Arbeitsplätze mit Datenordner und Repo je Rechner), Arbeitsauftrags-Orchestrierung (PROJ/MS/TASK/TKT/FEAT/UC), Anwenderdokumentation im Wiki, Spezifikationsredaktion im Wiki, Feature-Editorial und Projekt-Tagebuch. Bündelt außerdem den projekt-manager-MCP-Server, damit er in jedem Repo, das dieses Plugin installiert, gleich verfügbar ist.",
+  "version": "1.4.0",
   "author": {
     "name": "Rene"
   }

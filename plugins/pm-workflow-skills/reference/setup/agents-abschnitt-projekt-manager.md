@@ -7,7 +7,11 @@ enthält bewusst keine ID.
 
 - **Sitzungsstart:** Bei Arbeit mit Projektbezug den Stand über `get_reference_context`
   laden, statt aus dem Gedächtnis zu arbeiten. Der Projekt Manager ist die Quelle der
-  Wahrheit.
+  Wahrheit — das gemeinsame Gedächtnis aller Rechner, auf denen dieses Projekt bearbeitet
+  wird.
+- **Arbeitsplatz:** Datenordner (Nextcloud) und weitere Pfade je Rechner stehen in der
+  Tabelle „Arbeitsplätze" von `docs/projekt-kontext.md`; die Zeile für den aktuellen Rechner
+  (`hostname`) verwenden. Fehlt sie: erfragen und ergänzen, nie raten.
 - **Arbeitspakete:** als Meilensteine und Aufgaben im Projekt Manager führen; erledigte
   Objekte auf `pending` setzen, die Abnahme macht der Nutzer.
 - **Log-Pflicht:** Nach jedem Arbeitsauftrag automatisch und ohne Rückfrage ein
