@@ -80,6 +80,13 @@ Der `title` ist eine kurze Überschrift, kein Satz.
 Das Werkzeug entscheidet selbst zwischen Anlegen und versionsgeschütztem Fortschreiben.
 Bei `409 CONFLICT` erneut aufrufen — der Kopf ist kurz, ein zweiter Versuch ist billig.
 
+**Bestandsübernahme (automatisch):** Trägt ein Projekt noch einen alten Tagebuchtext, sichert
+das Werkzeug ihn beim **ersten** Aufruf selbsttätig als Verlaufs-Eintrag, bevor es den Kopf
+ersetzt — `content` wird vollständig überschrieben und es gibt keine Versionshistorie, der
+Text wäre sonst unwiederbringlich weg. Das passiert genau einmal je Projekt (Marker: noch nie
+gesetztes `lastWorkedAt`) und muss nicht von Hand ausgelöst werden. Schlägt die Sicherung
+fehl, bricht der gesamte Vorgang ab und der Alt-Text bleibt unangetastet.
+
 ### 4. Kurz im Chat berichten
 Welches Projekt, welche Art Eintrag, ein Satz zum neuen Stand. Kein Schritt-Log nötig
 (kein Repo-Code, reiner MCP-Schreibvorgang).
