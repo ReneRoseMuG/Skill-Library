@@ -111,10 +111,37 @@ Verwechslungen möglich.
  *
  * Ziel:
  * <Kurzbeschreibung der Absicherung>
+ *
+ * Rot-Probe: <was absichtlich gebrochen wurde>
+ * Ergebnis: <welcher Test daraufhin fehlschlug, und mit welcher Meldung>
  */
 ```
 
-Falls das Repo eine zentrale Test-Matrix-Datei pflegt (siehe `tech-stack.md`): neue/erweiterte Tests müssen sie aktualisieren.
+**Rot-Probe statt Selbsteinschätzung.** Für jede neu angelegte oder wesentlich geänderte
+**fachliche** Testdatei gilt: Die geprüfte Regel wird im Produktivcode einmal absichtlich
+gebrochen, der rote Lauf beobachtet und die Änderung zurückgenommen. Was gebrochen wurde und was
+daraufhin fehlschlug, steht in den zwei Zeilen `Rot-Probe:` und `Ergebnis:`.
+
+Der Grund: Eine Behauptung über die eigene Testqualität ist kein Beweis — wer nachlässig testet,
+schreibt auch einen nachlässigen Nachweis. Die Probe beantwortet dieselbe Frage empirisch und
+schließt zugleich den False-Positive-Fall ein: Ein Test, der nur grün ist, weil vorhandene Daten
+zufällig passen, bleibt auch bei gebrochener Regel grün — dann schlägt die Probe fehl und der
+Mangel fällt auf.
+
+**Reine Smoke- und Strukturtests sind ausgenommen**, weil es dort keine Fachregel zu brechen gibt.
+Sie tragen stattdessen eine Zeile, die benennt, was sie *nicht* beweisen, zum Beispiel:
+`Smoke-Test: prüft nur, dass die Seite ohne Fehler rendert — keine Aussage über Datenrichtigkeit
+oder Rollenwirkung.` Damit ist die Kennzeichnungspflicht für Smoke-Tests erfüllt.
+
+Ob das Repo den Nachweis maschinell absichert und wie, steht in `tech-stack.md`. Eine solche
+Prüfung kann nur den Bestand schützen — kein Werkzeug kann entscheiden, ob eine Testdatei
+fachlich ist oder ein Smoke-Test.
+
+**Der Kommentar ist die einzige Quelle** darüber, was ein Test absichert. Eine Übersichtstabelle
+daneben wird nicht geführt: Eine zweite, von Hand gepflegte Liste driftet zwangsläufig ab, und es
+fällt erst auf, wenn jemand zufällig nachsieht. Der Kommentar steht in der Datei, die er
+beschreibt, und kann von ihr deshalb nicht abweichen. Wer wissen will, welche Tests zu einer
+Aufgabe gehören, sucht im Testbestand nach der Referenz.
 
 ---
 
